@@ -1,6 +1,6 @@
 CREATE DATABASE blogaggregator;
 
-USE blogaggregator1;
+USE blogaggregator;
 
 CREATE TABLE user( 
 id int not null AUTO_INCREMENT primary key,
