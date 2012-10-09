@@ -1,4 +1,4 @@
-CREATE DATABASE blogaggregator1;
+CREATE DATABASE blogaggregator;
 
 USE blogaggregator1;
 

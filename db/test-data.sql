@@ -1,4 +1,4 @@
-use blogaggregator1;
+use blogaggregator;
 
 insert into user (email) value('test@gmail.com');
 

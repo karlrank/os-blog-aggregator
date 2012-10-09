@@ -1,1 +1,1 @@
-drop database blogaggregator1;
+drop database blogaggregator;
