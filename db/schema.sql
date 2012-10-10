@@ -60,7 +60,7 @@ delete from blog_bloglist where
 (blog_bloglist.bloglist_id not in (select id from bloglist));END$$
 DELIMITER ;
 
-create procedure addBlogBloglist(in nblog char(32),in nblist char(32))
+create procedure addBlogToBloglist(in nblog char(32),in nblist char(32))
 insert into blog_bloglist values((select id from blog where title = nblog),
 (select id from bloglist where listName=nblist));
 
@@ -75,3 +75,7 @@ insert into blog_tag values((select id from blog where title = nblog),
 create procedure addTagToUser(in nemail char(32), in ntag char(32))
 insert into user_tag values((select id from user where email = nemail),
 (select id from tag where name = ntag));
+
+create procedure delBlogFromBloglist(in nblog char(32),in nblist char(32))
+delete from blog_bloglist where blog_id=(select id from blog where title = nblog) and
+bloglist_id=(select id from bloglist where listName=nblist);
