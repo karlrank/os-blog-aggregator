@@ -2,6 +2,8 @@ CREATE DATABASE blogaggregator;
 
 USE blogaggregator;
 
+set sql_safe_updates=0;
+
 CREATE TABLE user( 
 id int not null AUTO_INCREMENT primary key,
 email VARCHAR(64),
@@ -46,3 +48,11 @@ CREATE TABLE user_tag(
 USER_ID INT,
 TAG_ID INT,
 primary key (USER_ID,TAG_ID));
+
+DELIMITER $$
+create trigger blog_bloglist_delete 
+after delete on bloglist
+for each row begin
+delete from blog_bloglist where 
+(blog_bloglist.bloglist_id not in (select id from bloglist));END$$
+DELIMITER ;
