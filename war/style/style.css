@@ -89,10 +89,13 @@ main {
 	float: left;
 }
 
+#postContainer {
+	width: 700px;
+	margin:0px auto;
+}
 .blogpost {
 	margin: 25px;
 	padding: 15px;
-	width: 400px;
 	text-align: justify;
 }
 
