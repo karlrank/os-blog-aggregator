@@ -43,6 +43,7 @@ public class login extends HttpServlet {
 				String statement = "insert ignore into user (email, selectedList) value('" + request.getUserPrincipal().getName() + "', 0);";
 				PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.execute();
+				c.close();
 				
 				
 			} catch (SQLException e) {

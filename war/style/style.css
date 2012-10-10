@@ -92,6 +92,7 @@ main {
 .blogpost {
 	margin: 25px;
 	padding: 15px;
+	width: 400px;
 	text-align: justify;
 }
 

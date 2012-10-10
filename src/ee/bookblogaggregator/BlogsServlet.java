@@ -64,11 +64,10 @@ public class BlogsServlet extends HttpServlet {
 					}
 					response.getWriter().println(gson.toJson(output.toArray()));
 				}
-				
+				c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		} else {
 			Connection c = null;
 			try {
@@ -85,7 +84,7 @@ public class BlogsServlet extends HttpServlet {
 					output.add(rs.getString("xmlUrl"));
 				}
 				response.getWriter().println(gson.toJson(output.toArray()));
-				
+				c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

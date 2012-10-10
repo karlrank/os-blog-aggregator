@@ -1,5 +1,6 @@
 
 var bloglist;
+var test;
 
 function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, postText) {
 	var div = document.createElement("div");
@@ -29,6 +30,13 @@ function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, pos
 	return div;
 }
 
+function strip(html)
+{
+   var tmp = document.createElement("DIV");
+   tmp.innerHTML = html;
+   return tmp.textContent||tmp.innerText;
+}
+
 
 function init() {
 	
@@ -48,10 +56,9 @@ function init() {
     		for ( var i = 0; i < result.feed.entries.length; i++) {
 
     			var entry = result.feed.entries[i];
+    			test = result.feed.entries;
     			
-    			var img = $(entry.content).find('img').eq(0).attr('src');
-    			
-    			container.appendChild(generatePostHtml(img, entry.title, entry.link, "sourceUrl", entry.author, entry.contentSnippet));
+    			container.appendChild(generatePostHtml($(entry.content).find('img').eq(0).attr('src'), entry.title, entry.link, "sourceUrl", entry.author, entry.content));
     		}
     	}
     });
