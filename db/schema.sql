@@ -54,6 +54,8 @@ create trigger blog_bloglist_delete
 after delete on bloglist
 update user set selectedList=0 where selectedList=old.id;
 for each row begin
+delete from user_bloglist where 
+(user_bloglist.bloglist_id not in (select id from bloglist)); 
 delete from blog_bloglist where 
 (blog_bloglist.bloglist_id not in (select id from bloglist));END$$
 DELIMITER ;
@@ -61,3 +63,9 @@ DELIMITER ;
 create procedure addBlogBloglist(in nblog char(32),in nblist char(32))
 insert into blog_bloglist values((select id from blog where title = nblog),
 (select id from bloglist where listName=nblist));
+
+create procedure addBloglistToUser(in nemail char(64),in nblist char(32))
+insert into user_bloglist values((select id from user where email = nemail),
+(select id from bloglist where listName=nblist));
+
+
