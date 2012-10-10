@@ -50,7 +50,7 @@ TAG_ID INT,
 primary key (USER_ID,TAG_ID));
 
 DELIMITER $$
-create trigger blog_bloglist_delete 
+create trigger bloglist_delete 
 after delete on bloglist
 update user set selectedList=0 where selectedList=old.id;
 for each row begin
@@ -68,4 +68,10 @@ create procedure addBloglistToUser(in nemail char(64),in nblist char(32))
 insert into user_bloglist values((select id from user where email = nemail),
 (select id from bloglist where listName=nblist));
 
+create procedure addTagToBlog(in nblog char(32), in ntag char(32))
+insert into blog_tag values((select id from blog where title = nblog),
+(select id from tag where name=ntag));
 
+create procedure addTagToUser(in nemail char(32), in ntag char(32))
+insert into user_tag values((select id from user where email = nemail),
+(select id from tag where name = ntag));
