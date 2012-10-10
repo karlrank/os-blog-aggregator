@@ -57,3 +57,7 @@ for each row begin
 delete from blog_bloglist where 
 (blog_bloglist.bloglist_id not in (select id from bloglist));END$$
 DELIMITER ;
+
+create procedure addBlogBloglist(in nblog char(32),in nblist char(32))
+insert into blog_bloglist values((select id from blog where title = nblog),
+(select id from bloglist where listName=nblist));
