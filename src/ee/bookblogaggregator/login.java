@@ -1,11 +1,18 @@
 package ee.bookblogaggregator;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.rdbms.AppEngineDriver;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
@@ -27,6 +34,23 @@ public class login extends HttpServlet {
 
 		response.setContentType("text/html");
 		if (request.getUserPrincipal() != null) {
+			
+			Connection c = null;
+			try {
+				DriverManager.registerDriver(new AppEngineDriver());
+				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				
+				String statement = "insert ignore into user (email, selectedList) value('" + request.getUserPrincipal().getName() + "', 0);";
+				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.execute();
+				
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			
+			
 			response.getWriter().println("<a href=\"" + userService.createLogoutURL("/") + "\">LOG OUT(" + request.getUserPrincipal().getName() + ")</a>");
 		} 
 		else {
