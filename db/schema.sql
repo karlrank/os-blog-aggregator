@@ -52,8 +52,8 @@ primary key (USER_ID,TAG_ID));
 DELIMITER $$
 create trigger bloglist_delete 
 after delete on bloglist
-update user set selectedList=0 where selectedList=old.id;
 for each row begin
+update user set selectedList=0 where selectedList=old.id;
 delete from user_bloglist where 
 (user_bloglist.bloglist_id not in (select id from bloglist)); 
 delete from blog_bloglist where 
