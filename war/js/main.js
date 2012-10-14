@@ -58,8 +58,9 @@ function sortfunction(a, b) {
 function displayResults(entries) {
 	entries.sort(sortfunction);
 	
+	
     var container = document.getElementById("postContainer");
-    
+    $(container).html("");
     for ( var i = 0; i < entries.length; i++) {
     	var entry = entries[i];
     	container.appendChild(generatePostHtml($(entry.content).find('img').eq(0).attr('src'), entry.title, entry.link, "sourceUrl", entry.author, entry.content + entry.publishedDate)); 
@@ -86,7 +87,6 @@ function init() {
 	    feed.setNumEntries(4);
 	    feed.load(function(result) {
 	    	if (!result.error) {
-
 	    			entries = entries.concat(result.feed.entries);
 	    			if (i == bloglist.length) {
 	    				displayResults(entries);
