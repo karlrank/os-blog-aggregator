@@ -81,7 +81,6 @@ function slidePostDown(element) {
 	var height = $(tere).css("height", "auto").height();
 	$(tere).css("height", "90px");
 	$(tere).animate({height: height + 'px'}, 1000);
-	//$(tere).animate({height: '90px'}, 1000);
 }
 
 function sortfunction(a, b) {
@@ -114,15 +113,15 @@ function displayResults(entries) {
     $(".more").click(function(event) {
 		  var targetPost = event.currentTarget.parentNode;
 		  
-		  if ($(targetPost).height() == 90) {
+		  if ($(targetPost).height() == 115) {
 			  var height = $(targetPost).css("height", "auto").height();
-				$(targetPost).css("height", "90px");
+				$(targetPost).css("height", "115px");
 				$(targetPost).animate({height: height + 'px'}, 500);
 				event.currentTarget.innerHTML = "LESS";
 				$(targetPost).children(".less").show(500);
 		  }
 		  else {
-			$(targetPost).animate({height: '90px'}, 500);
+			$(targetPost).animate({height: '115px'}, 500);
 			$(targetPost).children(".less").hide(500);
 			event.currentTarget.innerHTML = "MORE";
 		  }
@@ -131,11 +130,12 @@ function displayResults(entries) {
     $(".less").click(function(event) {
 		  var targetPost = event.currentTarget.parentNode;
 		  $(targetPost).children(".more").html("MORE");
-			$(targetPost).animate({height: '90px'}, 500);
+			$(targetPost).animate({height: '115px'}, 500);
 			$(event.currentTarget).hide();
 		});
-//    $(".blogpost").children("p").find("img:first").hide();
-//    $(".blogpost").children("img:first").hide();
+//    $(".blogpost div").hide();
+//    $(".blogpost table").hide();
+    $(".blogpost img:nth-child(1)").hide();
 }
 
 
