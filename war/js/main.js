@@ -5,12 +5,14 @@ var entries;
 function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, postText) {
 	var div = document.createElement("div");
 	div.className = "blogpost";
-//	var img = document.createElement("img");
-//	img.src = imgSrc;
-//	img.alt = "Blog post image";
-//	img.className = "blogpost_image";
-//	div.appendChild(img);
-
+	var img = document.createElement("img");
+	if( imgSrc != undefined) {
+		img.src = imgSrc;
+		img.alt = "Blog post image";
+		img.className = "blogpost_image";
+		div.appendChild(img);
+	}
+	
 	var h2 = document.createElement("h2");
 	var a1 = document.createElement("a");
 	a1.href = postUrl;
@@ -25,6 +27,7 @@ function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, pos
 	a2.appendChild(span);
 	h2.appendChild(a2);
 	div.appendChild(h2);
+
 	$(div).append(postText);
 	
 	return div;
@@ -53,7 +56,6 @@ function sortfunction(a, b) {
 }
 
 function displayResults(entries) {
-	
 	entries.sort(sortfunction);
 	
     var container = document.getElementById("postContainer");
@@ -63,6 +65,9 @@ function displayResults(entries) {
     	container.appendChild(generatePostHtml($(entry.content).find('img').eq(0).attr('src'), entry.title, entry.link, "sourceUrl", entry.author, entry.content + entry.publishedDate)); 
     	  
     }
+    
+//    $(".blogpost").children("p").find("img:first").hide();
+//    $(".blogpost").children("img:first").hide();
 }
 
 
@@ -78,7 +83,7 @@ function init() {
     
     for ( var i = 0; i < bloglist.length; i++) {
 	    var feed = new google.feeds.Feed(bloglist[i]);
-	    feed.setNumEntries(10);
+	    feed.setNumEntries(4);
 	    feed.load(function(result) {
 	    	if (!result.error) {
 
