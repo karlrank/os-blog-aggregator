@@ -15,7 +15,7 @@ id int not null AUTO_INCREMENT primary key,
 title VARCHAR(32) not null,
 htmlUrl varchar(256) not null,
 xmlUrl varchar(256) not null,
-unique (htmlUrl));
+unique (xmlUrl));
 
 CREATE TABLE bloglist(
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 

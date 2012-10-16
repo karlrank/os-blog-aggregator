@@ -1,6 +1,7 @@
 package ee.bookblogaggregator;
 
 public class Blog {
+	long id;
 	String title;
 	String xmlUrl;
 	String htmlUrl;
@@ -9,8 +10,9 @@ public class Blog {
 		super();
 	}
 
-	public Blog(String title, String xmlUrl, String htmlUrl) {
+	public Blog(long id, String title, String xmlUrl, String htmlUrl) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.xmlUrl = xmlUrl;
 		this.htmlUrl = htmlUrl;

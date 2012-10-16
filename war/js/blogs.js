@@ -1,6 +1,8 @@
 
 var bloglists;
 var entries;
+var blogId;
+var listId;
 
 function init() {
 	
@@ -23,7 +25,7 @@ function init() {
 			for (var i = 0; i < bloglists.length; i++) {
 				$("#bloglists").append(createListRow(i, bloglists[i].name));
 				for (var j = 0; j < bloglists[i].blogs.length; j++) {
-					$("#bloglists").append(createBlogRow(i, bloglists[i].blogs[j].title));
+					$("#bloglists").append(createBlogRow(i, bloglists[i].blogs[j].title, bloglists[i].blogs[j].id));
 				}
 			}
 		}
@@ -41,18 +43,41 @@ function init() {
 		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
 		
 		$("#addListWindow").hide(300);
-	});
-	
+	});	
 	$("#addListButton").click(function (eventObject) {
 		listName = eventObject.currentTarget.parentNode.children[1].value;
-		
-		console.log(listName);
 		$.post("/listmanager", { action: "add", listName: listName } );
 		
 		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
 		$("#addListWindow").hide(200, function() {
 			location.reload();
 		});
+	});
+	
+	$("#cancelAddBlogButton").click(function () {
+		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
+		
+		$("#addBlogWindow").hide(300);
+	});
+	$("#addBlogButton").click(function (eventObject) {
+		blogUrl = eventObject.currentTarget.parentNode.children[1].value;
+		var feed = new google.feeds.Feed(blogUrl);
+		console.log(blogUrl);
+	    feed.setNumEntries(1);
+	    feed.load(function(result) {
+	    	console.log(result);
+	    	if (!result.error) {
+	    			var blogTitle = result.feed.entries[0].author;
+	    			$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: blogTitle, blogUrl: blogUrl} , function() {
+	    				location.reload();
+	    			});
+	    			
+	    			$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
+	    			$("#addListWindow").hide(200, function() {
+	    				location.reload();
+	    			});
+	    	}
+	    });
 	});
 	
 }
@@ -74,13 +99,13 @@ function createListRow(listNr, listName) {
 		td2.innerText = listName;
 		tr.appendChild(td2);
 	var td3 = document.createElement("td");
-		td3.innerHTML = "<a class='add' href='javascript:void(0)'>ADD BLOG</a> - <a class='add removeList' href='javascript:void(0)'>REMOVE LIST</a>";
+		td3.innerHTML = "<a class='add addBlog' href='javascript:void(0)'>ADD BLOG</a> - <a class='add removeList' href='javascript:void(0)'>REMOVE LIST</a>";
 		tr.appendChild(td3);
 	return tr;
 }
 
 
-function createBlogRow(listNr, blogName) {
+function createBlogRow(listNr, blogName, blogId) {
 	var tr = document.createElement("tr");
 		tr.className = "blog " + listNr;
 	var td = document.createElement("td");
@@ -91,7 +116,7 @@ function createBlogRow(listNr, blogName) {
 		td2.innerText = blogName;
 		tr.appendChild(td2);
 	var td3 = document.createElement("td");
-		td3.innerHTML = '<a class="add" href="javascript:void(0)">EDIT TAGS</a> - <a class="add" href="javascript:void(0)">REMOVE BLOG</a>';
+		td3.innerHTML = '<a class="add" href="javascript:void(0)">EDIT TAGS</a> - <a id="blog.' + blogId + '" class="add removeBlog" href="javascript:void(0)">REMOVE BLOG</a>';
 		tr.appendChild(td3);
 	return tr;
 }
@@ -138,6 +163,23 @@ function addClickListeners() {
 		$.post("/listmanager", { action: "remove", listId: id } , function() {
 			location.reload();
 		});
+	});
+	
+	$(".removeBlog").click(function (eventObject) {
+		var blogId = eventObject.currentTarget.id.split(".")[1];
+		var listId = bloglists[parseInt(eventObject.currentTarget.parentNode.parentNode.classList[1])].id;
+		console.log(blogId, listId);
+		
+		$.post("/listmanager", { action: "removeBlog", listId: listId, blogId: blogId } , function() {
+			location.reload();
+		});
+	});
+	
+	$(".addBlog").click(function (eventObject) {
+		$("#darken").show();
+		$("#darken").animate({opacity: "0.6"});
+		$("#addBlogWindow").show(200);
+		listId = bloglists[parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id)].id;
 	});
 }
 

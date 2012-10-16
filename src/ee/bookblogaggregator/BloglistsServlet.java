@@ -51,11 +51,11 @@ public class BloglistsServlet extends HttpServlet {
 					
 					while (rs.next()) {
 						Bloglist bl = new Bloglist(rs.getLong("id"), rs.getString("listName"));
-						String statement2 = "select title,htmlUrl,xmlUrl from blog where id IN (select BLOG_ID from blog_bloglist where BLOGLIST_ID IN (select id from bloglist where listName='" + rs.getString("listName") + "'));";
+						String statement2 = "select id,title,htmlUrl,xmlUrl from blog where id IN (select BLOG_ID from blog_bloglist where BLOGLIST_ID IN (select id from bloglist where listName='" + rs.getString("listName") + "'));";
 						PreparedStatement stmt2 = c.prepareStatement(statement2);
 						ResultSet rs2 = stmt2.executeQuery();
 						while (rs2.next()) {
-							bl.addBlog(new Blog(rs2.getString(1), rs2.getString(3), rs2.getString(2)));
+							bl.addBlog(new Blog(rs2.getLong(1), rs2.getString(2), rs2.getString(4), rs2.getString(3)));
 						}
 						output.add(bl);
 					}
