@@ -50,6 +50,16 @@
 		<url-pattern>/bloglists</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>listmanaget</servlet-name>
+		<servlet-class>ee.bookblogaggregator.ListManagerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>listmanaget</servlet-name>
+		<url-pattern>/listmanager</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

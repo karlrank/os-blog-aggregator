@@ -1,5 +1,5 @@
 
-var bloglist;
+var bloglists;
 var entries;
 
 function init() {
@@ -12,8 +12,7 @@ function init() {
 	$(window).resize(res);
 	
 	$.get("/bloglists", function(result) {
-		var bloglists = $.parseJSON(result);
-		console.log(bloglists);
+		bloglists = $.parseJSON(result);
 		if (bloglists == null) {
 			$("#bloglists").html("Log in to manage your bloglists.");
 		}
@@ -31,6 +30,31 @@ function init() {
 		
 		addClickListeners();
 	});
+	
+	$("#addlist").click(function () {
+		$("#darken").show();
+		$("#darken").animate({opacity: "0.6"});
+		$("#addListWindow").show(200);
+	});
+	
+	$("#cancelAddListButton").click(function () {
+		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
+		
+		$("#addListWindow").hide(300);
+	});
+	
+	$("#addListButton").click(function (eventObject) {
+		listName = eventObject.currentTarget.parentNode.children[1].value;
+		
+		console.log(listName);
+		$.post("/listmanager", { action: "add", listName: listName } );
+		
+		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
+		$("#addListWindow").hide(200, function() {
+			location.reload();
+		});
+	});
+	
 }
 
 window.onload = init;
