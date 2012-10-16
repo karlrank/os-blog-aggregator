@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +20,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final Logger log = Logger.getLogger(login.class.getName());
 
     public login() {
         super();
@@ -29,8 +30,15 @@ public class login extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = UserServiceFactory.getUserService();
-
-		String thisURL = request.getRequestURI();
+		
+		String thisURL = "";
+		
+		if (request.getParameter("origin").equals("blogs")) {
+			thisURL = "/blogs.htm";
+		}
+		else {
+			thisURL = "/";
+		}
 
 		response.setContentType("text/html");
 		if (request.getUserPrincipal() != null) {
@@ -51,11 +59,10 @@ public class login extends HttpServlet {
 			}
 			
 			
-			
-			response.getWriter().println("<a href=\"" + userService.createLogoutURL("/") + "\">LOG OUT(" + request.getUserPrincipal().getName() + ")</a>");
+			response.getWriter().println("<a href=\"" + userService.createLogoutURL(thisURL) + "\">LOG OUT(" + request.getUserPrincipal().getName() + ")</a>");
 		} 
 		else {
-			response.getWriter().println("<a href=\""+ userService.createLoginURL("/")+ "\">LOG IN</a>");
+			response.getWriter().println("<a href=\""+ userService.createLoginURL(thisURL)+ "\">LOG IN</a>");
 		}
 	}
 

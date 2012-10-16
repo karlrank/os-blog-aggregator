@@ -40,6 +40,16 @@
 		<url-pattern>/blogs</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>bloglists</servlet-name>
+		<servlet-class>ee.bookblogaggregator.BloglistsServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>bloglists</servlet-name>
+		<url-pattern>/bloglists</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
