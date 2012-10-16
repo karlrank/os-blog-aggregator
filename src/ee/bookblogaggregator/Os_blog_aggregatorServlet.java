@@ -21,7 +21,7 @@ public class Os_blog_aggregatorServlet extends HttpServlet {
 		Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
-			c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 			
 			String statement = "CREATE TABLE Persons (P_Id int,LastName varchar(255))";
 			PreparedStatement stmt = c.prepareStatement(statement);

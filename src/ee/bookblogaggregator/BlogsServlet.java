@@ -39,7 +39,7 @@ public class BlogsServlet extends HttpServlet {
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager
-						.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+						.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 
 				String statement = "select title,htmlUrl,xmlUrl from blog where id IN (select BLOG_ID from blog_bloglist where BLOGLIST_ID IN (select id from bloglist where listName=(select listName from bloglist where id=(select selectedList from user where email='" + request.getUserPrincipal().getName() + "')) and id IN (select BLOGLIST_ID from user_bloglist where USER_ID IN (select id from user where email='" + request.getUserPrincipal().getName() + "'))));";
 				PreparedStatement stmt = c.prepareStatement(statement);
@@ -73,7 +73,7 @@ public class BlogsServlet extends HttpServlet {
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager
-						.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+						.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 
 				String statement = "select id, title, htmlUrl, xmlUrl, count(distinct id) as Popularity from blog where id in (select id from blog_bloglist) group by title ORDER BY Popularity DESC LIMIT 0, 3;";
 				PreparedStatement stmt = c.prepareStatement(statement);

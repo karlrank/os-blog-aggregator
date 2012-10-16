@@ -13,8 +13,8 @@ unique (email));
 CREATE TABLE blog(
 id int not null AUTO_INCREMENT primary key,
 title VARCHAR(32) not null,
-htmlUrl varchar(256) not null,
-xmlUrl varchar(256) not null,
+htmlUrl varchar(200) not null,
+xmlUrl varchar(200) not null,
 unique (xmlUrl));
 
 CREATE TABLE bloglist(

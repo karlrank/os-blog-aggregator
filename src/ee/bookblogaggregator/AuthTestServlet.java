@@ -27,7 +27,7 @@ public class AuthTestServlet extends HttpServlet {
 			resp.getWriter().println("<p>Hello, " + req.getUserPrincipal().getName() + "!  You can <a href=\"" + userService.createLogoutURL(thisURL) + "\">sign out</a>.</p>");
 		} 
 		else {
-			resp.getWriter().println("<p>Please <a href=\""+ userService.createLoginURL(thisURL)+ "\">sign in</a>.</p>");
+			resp.getWriter().println("<p>Please <a href=\""+ userService.createLoginURL(thisURL)+ "\">sign 2 in</a>.</p>");
 		}
 	}
 

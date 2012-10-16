@@ -36,7 +36,7 @@ public class ListManagerServlet extends HttpServlet {
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
-				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				String statement = "insert into bloglist (listName) values ('" + listName + "');";
 				PreparedStatement stmt = c.prepareStatement(statement);
@@ -57,12 +57,12 @@ public class ListManagerServlet extends HttpServlet {
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
-				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				String statement = "DELETE FROM bloglist WHERE id='" + id + "';";
 				PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.execute();				
-				
+				c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -76,12 +76,12 @@ public class ListManagerServlet extends HttpServlet {
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
-				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				String statement = "DELETE FROM blog_bloglist WHERE BLOG_ID='" + blogId + "' AND BLOGLIST_ID='" + listId + "';";
 				PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.execute();				
-				
+			c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -94,7 +94,7 @@ public class ListManagerServlet extends HttpServlet {
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
-				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				String statement = "SELECT id FROM blog WHERE xmlUrl = '" + blogUrl + "';";
 				PreparedStatement stmt = c.prepareStatement(statement);
@@ -119,7 +119,7 @@ public class ListManagerServlet extends HttpServlet {
 					stmt = c.prepareStatement(statement);
 					stmt.execute();
 				}
-				
+				c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

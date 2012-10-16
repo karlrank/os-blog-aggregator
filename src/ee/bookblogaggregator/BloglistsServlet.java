@@ -39,7 +39,7 @@ public class BloglistsServlet extends HttpServlet {
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
-				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				
 
