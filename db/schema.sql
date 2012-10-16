@@ -49,16 +49,6 @@ USER_ID INT,
 TAG_ID INT,
 primary key (USER_ID,TAG_ID));
 
-DELIMITER $$
-create trigger bloglist_delete 
-after delete on bloglist
-for each row begin
-update user set selectedList=0 where selectedList=old.id;
-delete from user_bloglist where 
-(user_bloglist.bloglist_id not in (select id from bloglist)); 
-delete from blog_bloglist where 
-(blog_bloglist.bloglist_id not in (select id from bloglist));END$$
-DELIMITER ;
 
 create procedure addBlogToBloglist(in nblog char(32),in nblist char(32))
 insert into blog_bloglist values((select id from blog where title = nblog),
