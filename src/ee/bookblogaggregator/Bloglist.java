@@ -7,18 +7,21 @@ public class Bloglist {
 	
 	String name;
 	List<Blog> blogs;
-	
+	long id;
+
 	Bloglist() {
 		name = "";
 		blogs = new ArrayList<Blog> ();
 	}
 	
-	public Bloglist(String name) {
+	public Bloglist(long id, String name) {
+		this.id = id;
 		this.name = name;
 		blogs = new ArrayList<Blog> ();
 	}
 	
-	public Bloglist(String name, List<Blog> blogs) {
+	public Bloglist(long id, String name, List<Blog> blogs) {
+		this.id = id;
 		this.name = name;
 		this.blogs = blogs;
 	}
@@ -41,6 +44,14 @@ public class Bloglist {
 	
 	public void addBlog(Blog blog) {
 		blogs.add(blog);
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 }
 

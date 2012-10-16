@@ -43,14 +43,14 @@ public class BloglistsServlet extends HttpServlet {
 				
 				
 
-				String statement = "select listName from bloglist where id IN (select BLOGLIST_ID from user_bloglist where USER_ID IN (select id from user where email='" + userService.getCurrentUser().getEmail() + "')); ";
+				String statement = "select id, listName from bloglist where id IN (select BLOGLIST_ID from user_bloglist where USER_ID IN (select id from user where email='" + userService.getCurrentUser().getEmail() + "')); ";
 				PreparedStatement stmt = c.prepareStatement(statement);
 				ResultSet rs = stmt.executeQuery();
 				
 					List<Bloglist> output = new ArrayList<Bloglist>();
 					
 					while (rs.next()) {
-						Bloglist bl = new Bloglist(rs.getString("listName"));
+						Bloglist bl = new Bloglist(rs.getLong("id"), rs.getString("listName"));
 						String statement2 = "select title,htmlUrl,xmlUrl from blog where id IN (select BLOG_ID from blog_bloglist where BLOGLIST_ID IN (select id from bloglist where listName='" + rs.getString("listName") + "'));";
 						PreparedStatement stmt2 = c.prepareStatement(statement2);
 						ResultSet rs2 = stmt2.executeQuery();

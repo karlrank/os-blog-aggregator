@@ -74,7 +74,7 @@ function createListRow(listNr, listName) {
 		td2.innerText = listName;
 		tr.appendChild(td2);
 	var td3 = document.createElement("td");
-		td3.innerHTML = "<a class='add' href=''>ADD BLOG</a> - <a class='add' href=''>REMOVE LIST</a>";
+		td3.innerHTML = "<a class='add' href='javascript:void(0)'>ADD BLOG</a> - <a class='add removeList' href='javascript:void(0)'>REMOVE LIST</a>";
 		tr.appendChild(td3);
 	return tr;
 }
@@ -91,7 +91,7 @@ function createBlogRow(listNr, blogName) {
 		td2.innerText = blogName;
 		tr.appendChild(td2);
 	var td3 = document.createElement("td");
-		td3.innerHTML = '<a class="add" href="">EDIT TAGS</a> - <a class="add" href="">REMOVE BLOG</a>';
+		td3.innerHTML = '<a class="add" href="javascript:void(0)">EDIT TAGS</a> - <a class="add" href="javascript:void(0)">REMOVE BLOG</a>';
 		tr.appendChild(td3);
 	return tr;
 }
@@ -129,6 +129,15 @@ function addClickListeners() {
 			event.currentTarget.parentNode.children[0].children[0].src = "img/arrow_right.png";
 		}
 		
+	});
+	
+	$(".removeList").click(function (eventObject) {
+		var id = parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id);
+		
+		var id = bloglists[id].id;
+		$.post("/listmanager", { action: "remove", listId: id } , function() {
+			location.reload();
+		});
 	});
 }
 

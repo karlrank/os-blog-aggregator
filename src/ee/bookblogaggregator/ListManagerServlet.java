@@ -51,6 +51,22 @@ public class ListManagerServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		else if (request.getParameter("action").equals("remove")) {
+			long id = Long.parseLong(request.getParameter("listId"));
+			
+			Connection c = null;
+			try {
+				DriverManager.registerDriver(new AppEngineDriver());
+				c = DriverManager.getConnection("jdbc:google:rdbms://blogaggregator/blogaggregator");
+				
+				String statement = "DELETE FROM bloglist WHERE id='" + id + "';";
+				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.execute();				
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
