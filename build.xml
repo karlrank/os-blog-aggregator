@@ -36,6 +36,13 @@
       </fileset>
     </copy>
     -->
+		<copy
+		        todir="${sdk.dir}/lib/impl"
+		        flatten="true">
+		      <fileset dir="war/WEB-INF/lib">
+		        <include name="mysql-connector-java-5.1.22-bin.jar" />
+		      </fileset>
+		    </copy>
 	</target>
 
 	<target name="compile" depends="copyjars"
