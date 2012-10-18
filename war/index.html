@@ -5,6 +5,7 @@
   	<meta charset="utf-8">
 	<meta name="description" content="Book themed blog aggreator">
 	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/menu.css">
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript" src="js/main.js"></script>
@@ -14,48 +15,34 @@
 	<title>Book Blog Aggreator</title>
   </head>
 
-  <body>
-  	
-  	
+  <body>  	
   	<header>
 	  		<img id="logo" alt="Logo" src="img/logo.png" />
+	  		<ul class="listSelect blue">
+	  			<li><a href="#" title="Select list"><span>SELECT LIST</span></a></li>
+	  		</ul>
 	  		<nav>
+	  		
+	  		<ul class="blue">
+				<li><a href="#" title="HOME" class="current"><span>HOME</span></a></li>
+			    <li><a href="#" title="TOP"><span>TOP</span></a></li>
+			    <li><a href="#" title="MY BLOGS"><span>MY BLOGS</span></a></li>
+			    <li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
+			</ul>
+	  			<!--  
 	  			<a href="/">HOME</a> |
 				<a href="/top/">TOP</a> |
 				<a href="/blogs.htm">MY BLOGS</a> |
 				<a id="tere" href="">ABOUT</a> |
 				<span id="login"><a href="/login/">LOG IN</a></span>
+				-->
 	  		</nav>
+	  		<ul class="login blue">
+	  			<li><a href="#" title="Log in"><span>LOG IN</span></a></li>
+	  		</ul>
 	  	</header>
 	  	<div id="main">
-  		<div id="left">
   			<div id="postContainer"></div>
-  		</div>
-  		
-  		<div id="right">
-  			<h3>SUGGESTED TO YOU</h3>
-  			<br />
-  			<div class="suggestion">
-  				<a href="http://tuulikinkirjavinkkaukset.blogspot.com/">Tuulikin kirjavinkkaukset</a> -
-  					<a class="add" href="">ADD</a>				
-  			</div>
-  			<div class="suggestion">
-  				<a href="http://usvazine.wordpress.com">Toimittajan spekulatiivinen lokikirja</a> -
-  					<a class="add" href="">ADD</a>				
-  			</div>
-  			<div class="suggestion">
-  				<a href="http://vinttikamarissa.blogspot.com/">Vinttikamarissa</a> -
-  					<a class="add" href="">ADD</a>				
-  			</div>
-  			<div class="suggestion">
-  				<a href="http://kasikirjoituksista.blogspot.com/">Käsikirjoituksista, vaistolla</a> -
-  					<a class="add" href="">ADD</a>				
-  			</div>
-  			<div class="suggestion">
-  				<a href="http://bookingitsomemore.blogspot.com/">Booking it some more</a> -
-  					<a class="add" href="">ADD</a>				
-  			</div>
-  		</div>
   	</div>
   </body>
 </html>
