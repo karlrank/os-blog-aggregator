@@ -54,7 +54,8 @@ nav {
 }
 
 .listSelect {
-	width: 150px;
+	display: none;
+	width: 200px;
 	position: fixed;
 	left: 30px;
 	top: 110px;
@@ -64,5 +65,12 @@ nav {
 	width: 150px;
 }
 
+.list {
+	width: 200px;
+}
+
+#selectList {
+	width: 200px;
+}
 
 

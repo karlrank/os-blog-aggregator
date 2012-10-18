@@ -4,27 +4,32 @@ var entries;
 
 function init() {
 	
-	$.get("/login?origin=main", function(result){
-	    $("#login").html(result);
-	  });
-	
 	$.get("/bloglists", function(result){
 		bloglists = $.parseJSON(result);
 		var selectedList = 1;
 		
-		for (var i = 0; i < bloglists.length; i++) {
-			$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
+		if (bloglists !== null) {
+			$(".listSelect").show();
+			for (var i = 0; i < bloglists.length; i++) {
+				if (i == selectedList) {
+					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list current"><span>' + bloglists[i].name + '</span></a></li>');
+				}
+				else {
+					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
+				}
+			}
+			
+			
+			$(".list").click(function (event) {
+				displayBlogs(bloglists, event.currentTarget.id.split(".")[1]);
+				$(".list").removeClass("current");
+				$(event.currentTarget).addClass("current");
+			});
+	    
+			
+			displayBlogs(bloglists, selectedList);
 		}
 		
-		
-		$(".list").click(function (event) {
-			displayBlogs(bloglists, event.currentTarget.id.split(".")[1]);
-			$(".list").removeClass("current");
-			$(event.currentTarget).addClass("current");
-		});
-    
-		
-		displayBlogs(bloglists, selectedList);
   });
 	
 	res();
@@ -36,20 +41,21 @@ window.onload = init;
 
 function displayBlogs (bloglists, selectedList) {
 	
+	var numToLoad = 4;
 	var bloglist = new Array();
 	for (var i = 0; i < bloglists[selectedList].blogs.length; i++) {
 		bloglist.push(bloglists[selectedList].blogs[i].xmlUrl);
 		
-	}	
+	}
     entries = new Array();
     
     for ( var i = 0; i < bloglist.length; i++) {
 	    var feed = new google.feeds.Feed(bloglist[i]);
-	    feed.setNumEntries(4);
+	    feed.setNumEntries(numToLoad);
 	    feed.load(function(result) {
 	    	if (!result.error) {
 	    			entries = entries.concat(result.feed.entries);
-	    			if (i == bloglist.length) {
+	    			if (entries.length == bloglist.length * numToLoad) {
 	    				displayResults(entries);
 	    			}
 	    	}
