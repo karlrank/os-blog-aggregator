@@ -1,5 +1,5 @@
 
-var bloglist;
+var bloglists;
 var entries;
 
 function init() {
@@ -8,8 +8,41 @@ function init() {
 	    $("#login").html(result);
 	  });
 	
-	$.get("/blogs", function(result){
-    bloglist = jQuery.parseJSON(result);
+	$.get("/bloglists", function(result){
+		bloglists = $.parseJSON(result);
+		var selectedList = 1;
+		
+		for (var i = 0; i < bloglists.length; i++) {
+			$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
+		}
+		$("#selectList").hover(function() {$(".list").show();$(".list").animate({opacity: "1"}, 200); }, function() {$(".list").hide();$(".list").css("opacity" , 0);});
+		$(".list").hover(function() {$(".list").show();$(".list").css("opacity" , 1);}, function() {$(".list").hide();$(".list").css("opacity" , 0);});
+		
+		$(".list").click(function (event) {
+			displayBlogs(bloglists, event.currentTarget.id.split(".")[1]);
+		});
+    
+		
+		displayBlogs(bloglists, selectedList);
+  });
+	
+	res();
+	$(window).resize(res);
+	
+	$("#selectList").hover(function() {$(".list").show();$(".list").animate({opacity: "1"}, 200); }, function() {$(".list").hide();$(".list").css("opacity" , 0);});
+	$(".list").hover(function() {$(".list").show();$(".list").css("opacity" , 1);}, function() {$(".list").hide();$(".list").css("opacity" , 0);});
+}
+
+window.onload = init;
+
+
+function displayBlogs (bloglists, selectedList) {
+	
+	var bloglist = new Array();
+	for (var i = 0; i < bloglists[selectedList].blogs.length; i++) {
+		bloglist.push(bloglists[selectedList].blogs[i].xmlUrl);
+		
+	}	
     entries = new Array();
     
     for ( var i = 0; i < bloglist.length; i++) {
@@ -24,13 +57,7 @@ function init() {
 	    	}
 	    });
 	}
-  });
-	
-	res();
-	$(window).resize(res);
 }
-
-window.onload = init;
 
 function res() {
 	$("#main").css("position", "fixed");

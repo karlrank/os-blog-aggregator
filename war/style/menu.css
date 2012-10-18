@@ -54,10 +54,20 @@ nav {
 }
 
 .listSelect {
+	width: 150px;
 	position: fixed;
 	left: 30px;
 	top: 110px;
 }
+
+#listSelectContainer {
+	width: 150px;
+}
+
+.list {
+	display:none;
+	opacity: 0;
+	}
 
 
 

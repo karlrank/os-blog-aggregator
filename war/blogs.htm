@@ -5,6 +5,7 @@
   	<meta charset="utf-8">
 	<meta name="description" content="Book themed blog aggreator">
 	<link rel="stylesheet" href="style/style.css">
+	<link rel="stylesheet" href="style/menu.css">
 	<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript" src="js/blogs.js"></script>
@@ -30,14 +31,27 @@
 	</div>
   	<header>
 	  		<img id="logo" alt="Logo" src="img/logo.png" />
+
 	  		<nav>
+	  		
+	  		<ul class="blue">
+				<li><a href="/" title="HOME"><span>HOME</span></a></li>
+			    <li><a href="/top.htm" title="TOP"><span>TOP</span></a></li>
+			    <li><a href="blogs.htm" title="MY BLOGS" class="current"><span>MY BLOGS</span></a></li>
+			    <li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
+			</ul>
+	  			<!--  
 	  			<a href="/">HOME</a> |
 				<a href="/top/">TOP</a> |
 				<a href="/blogs.htm">MY BLOGS</a> |
 				<a id="tere" href="">ABOUT</a> |
 				<span id="login"><a href="/login/">LOG IN</a></span>
+				-->
 	  		</nav>
-	  	</header>
+	  		<ul class="login blue">
+	  			<li><a href="#" title="Log in"><span>LOG IN</span></a></li>
+	  		</ul>
+	</header>
 	<div id="main">
 		<div id="blogsContainer">
 			<h2>MY BLOGS</h2>
