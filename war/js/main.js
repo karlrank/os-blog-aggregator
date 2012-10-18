@@ -15,11 +15,12 @@ function init() {
 		for (var i = 0; i < bloglists.length; i++) {
 			$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
 		}
-		$("#selectList").hover(function() {$(".list").show();$(".list").animate({opacity: "1"}, 200); }, function() {$(".list").hide();$(".list").css("opacity" , 0);});
-		$(".list").hover(function() {$(".list").show();$(".list").css("opacity" , 1);}, function() {$(".list").hide();$(".list").css("opacity" , 0);});
+		
 		
 		$(".list").click(function (event) {
 			displayBlogs(bloglists, event.currentTarget.id.split(".")[1]);
+			$(".list").removeClass("current");
+			$(event.currentTarget).addClass("current");
 		});
     
 		
@@ -28,9 +29,6 @@ function init() {
 	
 	res();
 	$(window).resize(res);
-	
-	$("#selectList").hover(function() {$(".list").show();$(".list").animate({opacity: "1"}, 200); }, function() {$(".list").hide();$(".list").css("opacity" , 0);});
-	$(".list").hover(function() {$(".list").show();$(".list").css("opacity" , 1);}, function() {$(".list").hide();$(".list").css("opacity" , 0);});
 }
 
 window.onload = init;
