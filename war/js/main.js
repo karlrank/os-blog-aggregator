@@ -6,10 +6,9 @@ function init() {
 	
 	$.get("/bloglists", function(result){
 		bloglists = $.parseJSON(result);
-		var selectedList = 1;
+		var selectedList = 0;
 		
 		if (bloglists !== null) {
-			$(".listSelect").show();
 			for (var i = 0; i < bloglists.length; i++) {
 				if (i == selectedList) {
 					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list current"><span>' + bloglists[i].name + '</span></a></li>');

@@ -30,7 +30,7 @@ public class ListManagerServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		UserService userService = UserServiceFactory.getUserService();
 		
-		if (request.getParameter("action").equals("add")) {
+		if (request.getParameter("action").equals("addList")) {
 			String listName = request.getParameter("listName");
 			
 			Connection c = null;
@@ -51,7 +51,7 @@ public class ListManagerServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else if (request.getParameter("action").equals("remove")) {
+		else if (request.getParameter("action").equals("removeList")) {
 			long id = Long.parseLong(request.getParameter("listId"));
 			
 			Connection c = null;

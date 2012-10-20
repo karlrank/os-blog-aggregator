@@ -46,7 +46,7 @@ function init() {
 	});	
 	$("#addListButton").click(function (eventObject) {
 		listName = eventObject.currentTarget.parentNode.children[1].value;
-		$.post("/listmanager", { action: "add", listName: listName } );
+		$.post("/listmanager", { action: "addList", listName: listName } );
 		
 		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
 		$("#addListWindow").hide(200, function() {
@@ -160,7 +160,7 @@ function addClickListeners() {
 		var id = parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id);
 		
 		var id = bloglists[id].id;
-		$.post("/listmanager", { action: "remove", listId: id } , function() {
+		$.post("/listmanager", { action: "removeList", listId: id } , function() {
 			location.reload();
 		});
 	});
