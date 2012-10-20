@@ -99,15 +99,12 @@ function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, pos
 	var a1 = document.createElement("a");
 	a1.href = postUrl;
 	a1.innerHTML = postTitle;
-	var a2 = document.createElement("a");
-	a2.href = sourceUrl;
 	var span = document.createElement("span");
 	span.className = "blogpost_source";
 	span.innerHTML = sourceName;
 	h2.appendChild(a1);
 	$(h2).append(" - ");
-	a2.appendChild(span);
-	h2.appendChild(a2);
+	h2.appendChild(span);
 	div.appendChild(h2);	
 
 	$(div).append(postText);
