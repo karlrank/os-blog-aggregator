@@ -15,10 +15,12 @@ function init() {
 	
 	$.get("/bloglists", function(result) {
 		bloglists = $.parseJSON(result);
-		if (bloglists == null) {
+		
+		if (bloglists.length == 1 && !isLoggedIn()) {
 			$("#bloglists").html("Log in to manage your bloglists.");
+			$("#addlist").hide();
 		}
-		else if (bloglists.length == 0) {
+		else if (bloglists.length == 1 && isLoggedIn()) {
 			$("#bloglists").html("You currently have no bloglists. Start by creating some.");
 		}
 		else {
@@ -129,6 +131,15 @@ function res() {
 	}
 	else {
 		$("#right").show();
+	}
+}
+
+function isLoggedIn() {
+	if($(".login li a").attr("title") === "Sign out") {
+		return true;
+	}
+	else if ($(".login li a").attr("title") === "Sign in") {
+		return false;
 	}
 }
 

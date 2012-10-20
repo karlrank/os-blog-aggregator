@@ -65,13 +65,13 @@
 			%>
 			<li><a
 				href="<%= userService.createLogoutURL(request.getRequestURI()) %>"
-				title="Sign out""><span>SIGN OUT: <%= userService.getCurrentUser().getEmail() %></span></a></li>
+				title="Sign out"><span>SIGN OUT: <%= userService.getCurrentUser().getEmail() %></span></a></li>
 			<%
 				    } else {
 				%>
 			<li><a
 				href="<%= userService.createLoginURL(request.getRequestURI()) %>"
-				title="Sign out" class="current"><span>LOG IN</span></a></li>
+				title="Sign in" class="current"><span>LOG IN</span></a></li>
 			<%
 				    }
 				%>
