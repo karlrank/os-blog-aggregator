@@ -24,7 +24,6 @@ public class ListManagerServlet extends HttpServlet {
 
     public ListManagerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -68,8 +67,6 @@ public class ListManagerServlet extends HttpServlet {
 			}
 		}
 		else if (request.getParameter("action").equals("removeBlog")) {
-			log.info(request.getParameter("blogId"));
-			log.info(request.getParameter("blogId"));
 			long blogId = Long.parseLong(request.getParameter("blogId"));
 			long listId = Long.parseLong(request.getParameter("listId"));
 			

@@ -24,7 +24,7 @@ function init() {
 			$("#bloglists").html("You currently have no bloglists. Start by creating some.");
 		}
 		else {
-			for (var i = 0; i < bloglists.length; i++) {
+			for (var i = 1; i < bloglists.length; i++) {
 				$("#bloglists").append(createListRow(i, bloglists[i].name));
 				for (var j = 0; j < bloglists[i].blogs.length; j++) {
 					$("#bloglists").append(createBlogRow(i, bloglists[i].blogs[j].title, bloglists[i].blogs[j].id));
