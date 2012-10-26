@@ -1,4 +1,4 @@
-package ee.bookblogaggregator;
+package ee.bookblogaggregator.data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Bloglist {
 	List<Blog> blogs;
 	long id;
 
-	Bloglist() {
+	public Bloglist() {
 		name = "";
 		blogs = new ArrayList<Blog> ();
 	}

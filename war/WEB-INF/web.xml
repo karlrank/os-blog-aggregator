@@ -2,7 +2,7 @@
 		
 	<servlet>
 		<servlet-name>bloglists</servlet-name>
-		<servlet-class>ee.bookblogaggregator.BloglistsServlet</servlet-class>
+		<servlet-class>ee.bookblogaggregator.servlet.BloglistsServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>
@@ -12,7 +12,7 @@
 	
 	<servlet>
 		<servlet-name>listmanager</servlet-name>
-		<servlet-class>ee.bookblogaggregator.ListManagerServlet</servlet-class>
+		<servlet-class>ee.bookblogaggregator.servlet.ListManagerServlet</servlet-class>
 	</servlet>
 	
 	<servlet-mapping>

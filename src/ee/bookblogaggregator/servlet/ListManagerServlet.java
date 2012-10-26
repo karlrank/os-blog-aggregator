@@ -1,4 +1,4 @@
-package ee.bookblogaggregator;
+package ee.bookblogaggregator.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package ee.bookblogaggregator;
+package ee.bookblogaggregator.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -19,6 +19,9 @@ import com.google.appengine.api.rdbms.AppEngineDriver;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
+
+import ee.bookblogaggregator.data.Blog;
+import ee.bookblogaggregator.data.Bloglist;
 
 public class BloglistsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

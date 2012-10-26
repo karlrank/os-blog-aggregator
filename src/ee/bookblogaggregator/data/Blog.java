@@ -1,4 +1,4 @@
-package ee.bookblogaggregator;
+package ee.bookblogaggregator.data;
 
 public class Blog {
 	long id;
