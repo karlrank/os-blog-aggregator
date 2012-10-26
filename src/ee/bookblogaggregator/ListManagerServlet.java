@@ -37,11 +37,14 @@ public class ListManagerServlet extends HttpServlet {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
-				String statement = "insert into bloglist (listName) values ('" + listName + "');";
+				String statement = "insert into bloglist (listName) values ( ? );";
 				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1, listName);
 				stmt.execute();
-				statement = "call addBloglistToUser('" + userService.getCurrentUser().getEmail() + "','" + listName + "');";
+				statement = "call addBloglistToUser( ?, ? );";
 				stmt = c.prepareStatement(statement);
+				stmt.setString(1, userService.getCurrentUser().getEmail());
+				stmt.setString(2, listName);
 				stmt.execute();
 				c.close();
 				
@@ -58,8 +61,9 @@ public class ListManagerServlet extends HttpServlet {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
-				String statement = "DELETE FROM bloglist WHERE id='" + id + "';";
+				String statement = "DELETE FROM bloglist WHERE id= ? ;";
 				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setLong(1, id);
 				stmt.execute();				
 				c.close();
 			} catch (SQLException e) {
@@ -75,8 +79,10 @@ public class ListManagerServlet extends HttpServlet {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
-				String statement = "DELETE FROM blog_bloglist WHERE BLOG_ID='" + blogId + "' AND BLOGLIST_ID='" + listId + "';";
+				String statement = "DELETE FROM blog_bloglist WHERE BLOG_ID = ? AND BLOGLIST_ID = ? ;";
 				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setLong(1, blogId);
+				stmt.setLong(2, listId);
 				stmt.execute();				
 			c.close();
 			} catch (SQLException e) {
@@ -93,28 +99,37 @@ public class ListManagerServlet extends HttpServlet {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
-				String statement = "SELECT id FROM blog WHERE xmlUrl = '" + blogUrl + "';";
+				String statement = "SELECT id FROM blog WHERE xmlUrl = ? ;";
 				PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1, blogUrl);
 				ResultSet rs = stmt.executeQuery();
 
 				if(rs.next()) {
 					long blogId = rs.getLong(1);
-					statement = "INSERT into blog_bloglist values ('" + blogId + "','" + listId + "')";
+					statement = "INSERT into blog_bloglist values ( ? ,? )";
 					stmt = c.prepareStatement(statement);
+					stmt.setLong(1, blogId);
+					stmt.setLong(2, listId);
 					stmt.execute();
 				}
 				else {
-					statement = "INSERT into blog (title, xmlUrl, htmlUrl) values ('" + blogTitle + "','" + blogUrl + "', '')";
+					statement = "INSERT into blog (title, xmlUrl, htmlUrl) values ( ? ,? ,? )";
 					PreparedStatement preparedStatement = c.prepareStatement(statement);
+					preparedStatement.setString(1, blogTitle);
+					preparedStatement.setString(2, blogUrl);
+					preparedStatement.setString(3, new String());
 					preparedStatement.execute();
-					statement = "SELECT id FROM blog WHERE xmlUrl = '" + blogUrl + "';";
-					stmt = c.prepareStatement(statement);
-					rs = stmt.executeQuery();
+					statement = "SELECT id FROM blog WHERE xmlUrl = ?;";
+					PreparedStatement statement2 = c.prepareStatement(statement);
+					statement2.setString(1, blogUrl);
+					rs = statement2.executeQuery();
 					rs.next();
 					
-					statement = "INSERT into blog_bloglist values ('" + rs.getLong(1) + "','" + listId + "')";
-					stmt = c.prepareStatement(statement);
-					stmt.execute();
+					statement = "INSERT into blog_bloglist values ( ? ,? )";
+					statement2 = c.prepareStatement(statement);
+					statement2.setLong(1, rs.getLong(1));
+					statement2.setLong(2, listId);
+					statement2.execute();
 				}
 				c.close();
 			} catch (SQLException e) {
