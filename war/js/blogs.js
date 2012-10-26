@@ -5,11 +5,6 @@ var blogId;
 var listId;
 
 function init() {
-	
-	$.get("/login?origin=blogs", function(result){
-	    $("#login").html(result);
-	  });
-	
 	res();
 	$(window).resize(res);
 	
