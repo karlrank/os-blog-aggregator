@@ -7,33 +7,100 @@ var listId;
 function init() {
 	res();
 	$(window).resize(res);
+	$( "#accordion" ).accordion();
+	$(".lolwut a").hover(function() {$(this).css("text-decoration", "underline");}, function() {$(this).css("text-decoration", "none");});
+//	$( "#dialog" ).dialog({
+//		autoOpen: false,
+//		width: 400,
+//		resizable: false,
+//		movable: false,
+//		buttons: [
+//			{
+//				text: "Create Bloglist",
+//				click: function() {
+//					var bValid = true;
+//                    allFields.removeClass( "ui-state-error" );
+// 
+//                    bValid = bValid && checkLength( name, "username", 3, 16 );
+//                    
+//					$( this ).dialog( "close" );
+//				}
+//			},
+//			{
+//				text: "Cancel",
+//				click: function() {
+//					$( this ).dialog( "close" );
+//				}
+//			}
+//		]
+//	});
+
+	$( "#dialog" ).dialog({
+        autoOpen: false,
+        modal: true,
+        resizable: false,
+        buttons: {
+            "Create an account": function() {
+            	var name = $("#name");
+                var bValid = true;
+                name.removeClass( "ui-state-error" );
+
+                bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
+                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
+
+                if ( bValid ) {
+                    console.log("ok");
+                    $( this ).dialog( "close" );
+                }
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialog").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+          },
+        close: function() {
+        	var name = $("#name");
+            name.removeClass( "ui-state-error" );
+            document.getElementById("name").value = "";
+            var tips = $(".validateTips");
+            tips.text("");
+        }
+    });
 	
-	$.get("/bloglists", function(result) {
-		bloglists = $.parseJSON(result);
-		
-		if (bloglists.length == 1 && !isLoggedIn()) {
-			$("#bloglists").html("Log in to manage your bloglists.");
-			$("#addlist").hide();
-		}
-		else if (bloglists.length == 1 && isLoggedIn()) {
-			$("#bloglists").html("You currently have no bloglists. Start by creating some.");
-		}
-		else {
-			for (var i = 1; i < bloglists.length; i++) {
-				$("#bloglists").append(createListRow(i, bloglists[i].name));
-				for (var j = 0; j < bloglists[i].blogs.length; j++) {
-					$("#bloglists").append(createBlogRow(i, bloglists[i].blogs[j].title, bloglists[i].blogs[j].id));
-				}
-			}
-		}
-		
-		addClickListeners();
-	});
+//	$.get("/bloglists", function(result) {
+//		bloglists = $.parseJSON(result);
+//		
+//		if (bloglists.length == 1 && !isLoggedIn()) {
+//			$("#bloglists").html("Log in to manage your bloglists.");
+//			$("#addlist").hide();
+//		}
+//		else if (bloglists.length == 1 && isLoggedIn()) {
+//			$("#bloglists").html("You currently have no bloglists. Start by creating some.");
+//		}
+//		else {
+//			for (var i = 1; i < bloglists.length; i++) {
+//				$("#bloglists").append(createListRow(i, bloglists[i].name));
+//				for (var j = 0; j < bloglists[i].blogs.length; j++) {
+//					$("#bloglists").append(createBlogRow(i, bloglists[i].blogs[j].title, bloglists[i].blogs[j].id));
+//				}
+//			}
+//		}
+//		
+//		addClickListeners();
+//	});
 	
 	$("#addlist").click(function () {
-		$("#darken").show();
-		$("#darken").animate({opacity: "0.6"});
-		$("#addListWindow").show(200);
+//		$("#darken").show();
+//		$("#darken").animate({opacity: "0.6"});
+//		$("#addListWindow").show(200);
+		$( "#dialog" ).dialog( "open" );
 	});
 	
 	$("#cancelAddListButton").click(function () {
@@ -80,6 +147,37 @@ function init() {
 }
 
 window.onload = init;
+
+function updateTips( t ) {
+	console.log("siin ka");
+	var tips = $(".validateTips");
+    tips.text( t ).addClass( "ui-state-highlight" );
+    setTimeout(function() {
+        tips.removeClass( "ui-state-highlight", 1500 );
+    }, 500 );
+}
+
+function checkLength( o, n, min, max ) {
+    if ( o.val().length > max || o.val().length < min ) {
+        o.addClass( "ui-state-error" );
+        updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+        return false;
+    } else {
+        return true;
+    }
+}
+
+function checkRegexp( o, regexp, n ) {
+    if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        console.log("siin");
+        return false;
+    } else {
+        return true;
+    }
+}
 
 function createListRow(listNr, listName) {
 	var tr = document.createElement("tr");

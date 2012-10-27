@@ -12,13 +12,34 @@
 <meta name="description" content="Book themed blog aggreator">
 <link rel="stylesheet" href="style/style.css">
 <link rel="stylesheet" href="style/menu.css">
+<!--<link href="style/ui-lightness/jquery-ui-1.9.1.custom.css" rel="stylesheet">-->
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+<script src="js/jquery-ui-1.9.1.custom.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="js/blogs.js"></script>
 <script type="text/javascript">
     	google.load("feeds", "1");
     </script>
 <title>Book Blog Aggreator</title>
+<style>
+	body{
+		font: 62.5% "Arial", sans-serif;
+	}
+	.lolwut {
+		float: right;
+	}
+	body { font-size: 62.5%; }
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 350px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em; }
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+	</style>
 </head>
 
 <body>
@@ -81,12 +102,24 @@
 		<div id="blogsContainer">
 			<h2>MY BLOGS</h2>
 			<br />
-			<table>
-				<tbody id="bloglists">
-				</tbody>
-			</table>
-			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD
-				LIST</a>
+			<div id="accordion">
+				<h3>First List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
+				<h3>Second List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
+				<h3>Third List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
+			</div>
+			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
+			<div id="dialog" title="Add bloglist">
+				<p class="validateTips"></p>
+				<form>
+					<fieldset>
+						<label for="name">Bloglist name</label>
+						<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
+					</fieldset>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

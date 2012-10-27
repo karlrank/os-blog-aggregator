@@ -1,17 +1,17 @@
-ul {
+.ul {
     padding: 5px;
     margin: 10px 0;
     list-style: none;
     float: left;
 }
  
-ul li {
+ul.blue li {
     float: left;
     display: inline; /*For ignore double margin in IE6*/
     margin: 0 10px;
 }
  
-ul li a {
+ul.blue li a {
     text-decoration: none;
     float:left;
     color: #999;
@@ -19,7 +19,7 @@ ul li a {
     font: 900 14px/22px "Arial", Helvetica, sans-serif;
 }
  
-ul li a span {
+ul.blue li a span {
     margin: 0 10px 0 -10px;
     padding: 1px 8px 5px 18px;
     position: relative; /*To fix IE6 problem (not displaying)*/
@@ -35,7 +35,7 @@ ul.blue li a.current span, ul.blue li a:hover span {
     background: url(../img/menu.png) no-repeat top left;
 }
 
-ul a {
+ul.blue a {
 	text-shadow: none;
 }
 
