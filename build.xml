@@ -143,12 +143,34 @@
 	</target>
 	
 	<target name="runtests" description="Deletes database schema objects.">
-		<exec executable="python"> 
-		    <arg value="test/easy.py"/>
-		</exec>
-		<exec executable="python"> 
-			<arg value="test/easy2.py"/>
-		</exec>
+		<parallel threadCount="2">
+			
+			<exec executable="python"> 
+			    <arg value="test/easy.py"/>
+			</exec>
+			
+			<exec executable="python"> 
+				<arg value="test/easy2.py"/>
+			</exec>
+			
+		</parallel>
 	</target>
-
+	
+	<target name="deploy-app" description="Uploads and deploys the application to App Engine.">
+	    <input message="Enter email" addproperty="gae-email"/>
+	    <input message="Enter password :- " addproperty="gae-password">
+	        <handler type="secure"/>
+	    </input>
+	 
+	    <!-- Call dependencies here rather than with 'depends' attribute to get input first -->
+		<!--  <antcall target="runtests" /> -->
+	 
+	    <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
+	            classpath="${sdk.dir}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
+	        <arg value="--email=${gae-email}" />
+	        <arg value="--passin" />
+	        <arg value="update" />
+	        <arg value="war" />
+	    </java>
+	</target>
 </project>
