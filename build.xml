@@ -141,5 +141,14 @@
 			src="db/drop-schema.sql">
 		</sql>
 	</target>
+	
+	<target name="runtests" description="Deletes database schema objects.">
+		<exec executable="python"> 
+		    <arg value="test/easy.py"/>
+		</exec>
+		<exec executable="python"> 
+			<arg value="test/easy2.py"/>
+		</exec>
+	</target>
 
 </project>
