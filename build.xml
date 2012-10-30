@@ -8,6 +8,8 @@
 	<property name="dbuser" value="root" />
 	<property name="dbpassword" value="root" />
 	
+	<property name="gae-email" value="ceroblogtest@gmail.com" />
+	<property name="gae-password" value="BlogTest1" />
 
 	<import file="${sdk.dir}/config/user/ant-macros.xml" />
 
@@ -157,10 +159,13 @@
 	</target>
 	
 	<target name="deploy-app" description="Uploads and deploys the application to App Engine.">
-	    <input message="Enter email" addproperty="gae-email"/>
-	    <input message="Enter password :- " addproperty="gae-password">
-	        <handler type="secure"/>
-	    </input>
+		<!--
+		    <input message="Enter email" addproperty="gae-email"/>
+		    <input message="Enter password :- " addproperty="gae-password">
+		        <handler type="secure"/>
+		    </input>
+	    -->
+		
 	 
 	    <!-- Call dependencies here rather than with 'depends' attribute to get input first -->
 		<!--  <antcall target="runtests" /> -->
