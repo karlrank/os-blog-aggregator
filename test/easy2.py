@@ -10,7 +10,7 @@ class Selenium2OnSauce(unittest.TestCase):
 
         self.driver = webdriver.Remote(
             desired_capabilities=desired_capabilities,
-            command_executor="http://cloudbees_karlrank:84aa05f7-efa4-40a2-b875-54f0c0e8d81a@ondemand.saucelabs.com:80/wd/hub"
+            command_executor="http://karlrank:2fcf1677-fcdc-4d37-96b9-b09949132908@ondemand.saucelabs.com:80/wd/hub"
         )
         self.driver.implicitly_wait(30)
 
