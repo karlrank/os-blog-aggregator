@@ -5,21 +5,19 @@ USE blogaggregator;
 set sql_safe_updates=0;
 
 CREATE TABLE user( 
-id int not null AUTO_INCREMENT primary key,
-email VARCHAR(64),
-selectedList INT,
-unique (email));
+email VARCHAR(64) primary key,
+selectedList INT);
 
 CREATE TABLE blog(
 id int not null AUTO_INCREMENT primary key,
 title VARCHAR(32) not null,
-xmlUrl varchar(200) not null,
+xmlUrl varchar(256) not null,
 unique (xmlUrl));
 
 CREATE TABLE bloglist(
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
-listName VARCHAR(32), 
-email varchar(64));
+listName VARCHAR(32),
+email VARCHAR(64));
 
 CREATE TABLE tag(
 id int not null AUTO_INCREMENT primary key,
@@ -31,7 +29,6 @@ BLOG_ID INT,
 BLOGLIST_ID INT,
 Primary key (BLOG_ID,BLOGLIST_ID)
 );
-
 
 CREATE TABLE blog_tag(
 BLOG_ID INT,
@@ -49,8 +46,9 @@ create procedure addBlogToBloglist(in nblog char(32),in nblist char(32))
 insert into blog_bloglist values((select id from blog where title = nblog),
 (select id from bloglist where listName=nblist));
 
-create procedure addBloglistToUser(in nemail char(64),in nuser char(32))
-insert into user_bloglist values(nemail, nuser);
+
+create procedure addBloglistToUser(in nemail char(64),in nblist char(32))
+insert into bloglist(listName,user) values(nemail,nblist);
 
 create procedure addTagToBlog(in nblog char(32), in ntag char(32))
 insert into blog_tag values((select id from blog where title = nblog),
@@ -64,13 +62,12 @@ create procedure delBlogFromBloglist(in nblog char(32),in nblist char(32))
 delete from blog_bloglist where blog_id=(select id from blog where title = nblog) and
 bloglist_id=(select id from bloglist where listName=nblist);
 
-DELIMITER $$
-create trigger bloglist_delete 
-after delete on bloglist
+Delimiter || 
+create trigger `bloglist_delete`
+after delete on `bloglist`
 for each row begin
-update user set selectedList=0 where selectedList=old.id;
+update user set selectedList=0 where selectedList=old.id; 
 delete from blog_bloglist where 
-(blog_bloglist.bloglist_id not in (select id from bloglist));END$$
-DELIMITER ;
-
-
+(blog_bloglist.bloglist_id not in (select id from bloglist));
+END||
+Delimiter ;
