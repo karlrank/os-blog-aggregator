@@ -8,48 +8,26 @@ function init() {
 	res();
 	$(window).resize(res);
 	$( "#accordion" ).accordion();
+	$("#addlist").button();
 	$(".lolwut a").hover(function() {$(this).css("text-decoration", "underline");}, function() {$(this).css("text-decoration", "none");});
-//	$( "#dialog" ).dialog({
-//		autoOpen: false,
-//		width: 400,
-//		resizable: false,
-//		movable: false,
-//		buttons: [
-//			{
-//				text: "Create Bloglist",
-//				click: function() {
-//					var bValid = true;
-//                    allFields.removeClass( "ui-state-error" );
-// 
-//                    bValid = bValid && checkLength( name, "username", 3, 16 );
-//                    
-//					$( this ).dialog( "close" );
-//				}
-//			},
-//			{
-//				text: "Cancel",
-//				click: function() {
-//					$( this ).dialog( "close" );
-//				}
-//			}
-//		]
-//	});
 
 	$( "#dialog" ).dialog({
         autoOpen: false,
         modal: true,
         resizable: false,
         buttons: {
-            "Create an account": function() {
+            "Add list": function() {
             	var name = $("#name");
                 var bValid = true;
                 name.removeClass( "ui-state-error" );
 
                 bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
-                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
+                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_ ])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
 
                 if ( bValid ) {
-                    console.log("ok");
+                    $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
+                    	location.reload();
+                    });
                     $( this ).dialog( "close" );
                 }
             },
@@ -74,9 +52,9 @@ function init() {
         }
     });
 	
-//	$.get("/bloglists", function(result) {
-//		bloglists = $.parseJSON(result);
-//		
+	$.get("/bloglists", function(result) {
+		bloglists = $.parseJSON(result);
+		
 //		if (bloglists.length == 1 && !isLoggedIn()) {
 //			$("#bloglists").html("Log in to manage your bloglists.");
 //			$("#addlist").hide();
@@ -94,7 +72,7 @@ function init() {
 //		}
 //		
 //		addClickListeners();
-//	});
+	});
 	
 	$("#addlist").click(function () {
 //		$("#darken").show();
@@ -149,7 +127,6 @@ function init() {
 window.onload = init;
 
 function updateTips( t ) {
-	console.log("siin ka");
 	var tips = $(".validateTips");
     tips.text( t ).addClass( "ui-state-highlight" );
     setTimeout(function() {
@@ -172,7 +149,6 @@ function checkRegexp( o, regexp, n ) {
     if ( !( regexp.test( o.val() ) ) ) {
         o.addClass( "ui-state-error" );
         updateTips( n );
-        console.log("siin");
         return false;
     } else {
         return true;
