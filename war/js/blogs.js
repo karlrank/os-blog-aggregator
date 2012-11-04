@@ -9,6 +9,7 @@ function init() {
 	$(window).resize(res);
 	$( "#accordion" ).accordion();
 	$("#addlist").button();
+	$(".bloglistbuttons a").button();
 	$(".lolwut a").hover(function() {$(this).css("text-decoration", "underline");}, function() {$(this).css("text-decoration", "none");});
 
 	$( "#dialog" ).dialog({
@@ -71,7 +72,7 @@ function init() {
 //			}
 //		}
 //		
-//		addClickListeners();
+		addClickListeners();
 	});
 	
 	$("#addlist").click(function () {
@@ -256,10 +257,11 @@ function addClickListeners() {
 	});
 	
 	$(".addBlog").click(function (eventObject) {
-		$("#darken").show();
-		$("#darken").animate({opacity: "0.6"});
-		$("#addBlogWindow").show(200);
-		listId = bloglists[parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id)].id;
+//		$("#darken").show();
+		console.log("addBlog button pressed");
+//		$("#darken").animate({opacity: "0.6"});
+//		$("#addBlogWindow").show(200);
+//		listId = bloglists[parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id)].id;
 	});
 }
 

@@ -26,7 +26,7 @@
 	body{
 		font: 62.5% "Arial", sans-serif;
 	}
-	.lolwut {
+	.bloglistbuttons {
 		float: right;
 	}
 	body { font-size: 62.5%; }
@@ -43,14 +43,6 @@
 </head>
 
 <body>
-	<div id="darken"></div>
-	<div id="addListWindow">
-		<h3>Bloglist name</h3>
-		<input type="text" size="30" id="listName" maxlength="32" value="">
-		<br /> <a id="addListButton" href="javascript: void(0)" class="add">ADD
-			LIST</a> - <a id="cancelAddListButton" href="javascript: void(0)"
-			class="add">CANCEL</a>
-	</div>
 	<div id="addBlogWindow">
 		<h3>Blog Feed URL</h3>
 		<input type="text" size="80" id="blogUrlInput" maxlength="200"
@@ -70,13 +62,6 @@
 							BLOGS</span></a></li>
 				<li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
 			</ul>
-			<!--  
-	  			<a href="/">HOME</a> |
-				<a href="/top/">TOP</a> |
-				<a href="/blogs.jsp">MY BLOGS</a> |
-				<a id="tere" href="">ABOUT</a> |
-				<span id="login"><a href="/login/">LOG IN</a></span>
-				-->
 		</nav>
 		<ul class="login blue">
 			<%
@@ -103,11 +88,11 @@
 			<h2>MY BLOGS</h2>
 			<br />
 			<div id="accordion">
-				<h3>First List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<h3>First List<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
 				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
-				<h3>Second List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<h3>Second List<span class="bloglistbuttons"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
 				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
-				<h3>Third List<span class="lolwut"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<h3>Third List<span class="bloglistbuttons"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
 				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
 			</div>
 			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>

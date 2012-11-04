@@ -104,7 +104,7 @@ footer {
 #blogsContainer {
 	width: 900px;
 	margin:0px auto;
-	background: #8ed7f9;
+	background: #FAFAFA;
 	border-radius: 10px;
 	padding : 25px;
 }
@@ -133,7 +133,7 @@ footer {
 }
 
 .blogpost:nth-child(even) {
-	background: #DDDDDD;
+	background: #EEEEEE;
 }
 
 table {
@@ -209,22 +209,6 @@ table {
 	filter:alpha(opacity=0); /* For IE8 and earlier */
 }
 
-#addListWindow {
-	display: none;
-	position: absolute;
-	text-align: center;
-	width:250px;
-	height: 70px;
-	top: 35%;
-	margin-top: -35px;
-	left: 50%;
-	margin-left: -125px;
-	background-color:#8ed7f9;
-	border: 2px solid #000000;
-	box-shadow: 8px 8px 40px #000000;
-	z-index: 7;
-}
-
 #addBlogWindow {
 	display: none;
 	position: absolute;
@@ -240,3 +224,27 @@ table {
 	box-shadow: 8px 8px 40px #000000;
 	z-index: 7;
 }
+
+.bloglistbuttons a {
+	position: relative;
+	bottom: 3px;
+}
+
+.ui-button-text {
+	font-size: 0.75em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
