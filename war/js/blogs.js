@@ -7,7 +7,7 @@ var listId;
 function init() {
 	res();
 	$(window).resize(res);
-	$(".blogButtons a").button()
+	$(".blogButtons a").button();
 	$( "#accordion" ).accordion({heightStyle: "content"});
 	$("#addlist").button();
 	$(".bloglistbuttons a").button();
@@ -24,7 +24,7 @@ function init() {
                 name.removeClass( "ui-state-error" );
 
                 bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
-                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_ ])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
+                bValid = bValid && checkRegexp( name, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, "Enter an url." );
 
                 if ( bValid ) {
                     $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
@@ -55,25 +55,33 @@ function init() {
     });
 	
 	$( "#dialogAddBlog" ).dialog({
-        autoOpen: true,
+        autoOpen: false,
         modal: true,
         resizable: false,
         width: 500,
         buttons: {
             "Add list": function() {
-            	var name = $("#name");
-                var bValid = true;
-                name.removeClass( "ui-state-error" );
+            	var active = $("#addBlogTabs").tabs("option", "active");
+            	
+            	switch(active)
+            	{
+            	case 0:
+            		var url = $("#blogUrl");
+                    var bValid = true;
+                    url.removeClass( "ui-state-error" );
+                    
+                    bValid = bValid && checkLength( url, "blog url", 2, 32 );
+            		
+            		
+            		break;
+            	case 1:
+            		console.log("Password tab");
+            		break;
+            	case 2:
+            		console.log("OPML tab");
+              	  	break;
+            	}
 
-                bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
-                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_ ])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
-
-                if ( bValid ) {
-                    $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
-                    	location.reload();
-                    });
-                    $( this ).dialog( "close" );
-                }
             },
             Cancel: function() {
                 $( this ).dialog( "close" );
@@ -88,11 +96,6 @@ function init() {
             });
           },
         close: function() {
-        	var name = $("#name");
-            name.removeClass( "ui-state-error" );
-            document.getElementById("name").value = "";
-            var tips = $(".validateTips");
-            tips.text("");
         }
     });
 	
@@ -119,9 +122,6 @@ function init() {
 	});
 	
 	$("#addlist").click(function () {
-//		$("#darken").show();
-//		$("#darken").animate({opacity: "0.6"});
-//		$("#addListWindow").show(200);
 		$( "#dialogAddBloglist" ).dialog( "open" );
 	});
 	
@@ -300,7 +300,7 @@ function addClickListeners() {
 	});
 	
 	$(".addBlog").click(function (eventObject) {
-	$("#addBlogWindow").show(200);
+		$("#dialogAddBlog").dialog("open");
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
 	});
 }
