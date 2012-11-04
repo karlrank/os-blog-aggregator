@@ -142,9 +142,8 @@
 				<p class="validateTips"></p>
 				<form>
 					<fieldset>
-						<label for="blogUrl">Blog RSS feed URL</label> <input type="text"
-							name="blogUrl" id="blogUrl"
-							class="text ui-widget-content ui-corner-all" />
+						<label for="blogUrl">Blog RSS feed URL</label> 
+						<input type="text" name="blogUrl" id="blogUrl" class="text ui-widget-content ui-corner-all" />
 					</fieldset>
 				</form>
 			</div>

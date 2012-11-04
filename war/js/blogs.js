@@ -8,7 +8,7 @@ function init() {
 	res();
 	$(window).resize(res);
 	$(".blogButtons a").button();
-	$( "#accordion" ).accordion({heightStyle: "content"});
+	$( "#accordion" ).accordion({heightStyle: "content", active: parseInt(sessionStorage.activeList)});
 	$("#addlist").button();
 	$(".bloglistbuttons a").button();
 	$( "#addBlogTabs" ).tabs({heightStyle: "auto"});
@@ -24,13 +24,12 @@ function init() {
                 name.removeClass( "ui-state-error" );
 
                 bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
-                bValid = bValid && checkRegexp( name, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, "Enter an url." );
+                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_ ])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
 
                 if ( bValid ) {
                     $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
                     	location.reload();
                     });
-                    $( this ).dialog( "close" );
                 }
             },
             Cancel: function() {
@@ -62,17 +61,41 @@ function init() {
         buttons: {
             "Add list": function() {
             	var active = $("#addBlogTabs").tabs("option", "active");
+            	var activeList = $("#accordion").accordion("option", "active");
             	
             	switch(active)
             	{
             	case 0:
+            		$(".validateTips").html('<img src="img/ajax-loader.gif" alt="loading">');
+            		
             		var url = $("#blogUrl");
                     var bValid = true;
                     url.removeClass( "ui-state-error" );
                     
-                    bValid = bValid && checkLength( url, "blog url", 2, 32 );
+                    bValid = bValid && checkLength( url, "blog url", 2, 200 );
+                    bValid = bValid && checkRegexp( url, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, "Blog RSS url must be an url!" );
             		
-            		
+                    if ( bValid ) {
+                    	sessionStorage.activeList = activeList;
+                    	blogUrl = url.val();
+                    	
+                		var feed = new google.feeds.Feed(blogUrl);
+                	    feed.setNumEntries(1);
+                	    feed.load(function(result) {
+                	    	console.log(result);
+                	    	if (!result.error) {
+                	    			var blogTitle = result.feed.entries[0].author;
+                	    			$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: blogTitle, blogUrl: blogUrl} , function() {
+                	    				location.reload();
+                	    			});
+                	    	}
+                	    	else {
+                	    		url.addClass( "ui-state-error" );
+                	            updateTips("Error with given RSS url. Check url and try again.");
+                	    	}
+                	    });
+                    }
+                    
             		break;
             	case 1:
             		console.log("Password tab");
@@ -123,49 +146,7 @@ function init() {
 	
 	$("#addlist").click(function () {
 		$( "#dialogAddBloglist" ).dialog( "open" );
-	});
-	
-	$("#cancelAddListButton").click(function () {
-		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
-		
-		$("#addListWindow").hide(300);
 	});	
-	$("#addListButton").click(function (eventObject) {
-		listName = eventObject.currentTarget.parentNode.children[1].value;
-		$.post("/listmanager", { action: "addList", listName: listName } );
-		
-		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
-		$("#addListWindow").hide(200, function() {
-			location.reload();
-		});
-	});
-	
-	$("#cancelAddBlogButton").click(function () {
-		$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
-		
-		$("#addBlogWindow").hide(300);
-	});
-	$("#addBlogButton").click(function (eventObject) {
-		blogUrl = eventObject.currentTarget.parentNode.children[1].value;
-		var feed = new google.feeds.Feed(blogUrl);
-		console.log(blogUrl);
-	    feed.setNumEntries(1);
-	    feed.load(function(result) {
-	    	console.log(result);
-	    	if (!result.error) {
-	    			var blogTitle = result.feed.entries[0].author;
-	    			$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: blogTitle, blogUrl: blogUrl} , function() {
-	    				location.reload();
-	    			});
-	    			
-	    			$("#darken").animate({opacity: "0"}, function() {$("#darken").hide();});
-	    			$("#addListWindow").hide(200, function() {
-	    				location.reload();
-	    			});
-	    	}
-	    });
-	});
-	
 }
 
 window.onload = init;
