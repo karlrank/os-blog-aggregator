@@ -36,13 +36,6 @@
 			    <li><a href="blogs.jsp" title="MY BLOGS"><span>MY BLOGS</span></a></li>
 			    <li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
 			</ul>
-	  			<!--  
-	  			<a href="/">HOME</a> |
-				<a href="/top/">TOP</a> |
-				<a href="/blogs.jsp">MY BLOGS</a> |
-				<a id="tere" href="">ABOUT</a> |
-				<span id="login"><a href="/login/">LOG IN</a></span>
-				-->
 	  		</nav>
 	  		<ul class="login blue">
 	  		<%
