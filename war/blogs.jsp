@@ -64,57 +64,7 @@
 		<div id="blogsContainer">
 			<br />
 			<div id="accordion">
-				<h3 id="0">
-					First List<span class="bloglistbuttons"><a class="addBlog"
-						href="javascript:void(0)">ADD BLOG</a> - <a
-						href="javascript:void(0)">REMOVE LIST</a></span>
-				</h3>
-				<div>
-					<ul>
-						<li>Blog 1 <span class="blogButtons"><a
-								href="javascript:void(0)">EDIT TAGS</a><a
-								href="javascript:void(0)">REMOVE BLOG</a></span></li>
-						<li>Blog 2 <span class="blogButtons"><a
-								href="javascript:void(0)">EDIT TAGS</a><a
-								href="javascript:void(0)">REMOVE BLOG</a></span></li>
-						<li>Blog 3 <span class="blogButtons"><a
-								href="javascript:void(0)">EDIT TAGS</a><a
-								href="javascript:void(0)">REMOVE BLOG</a></span></li>
-					</ul>
-				</div>
-				<h3 id="1">
-					Second List<span class="bloglistbuttons"><a class="addBlog"
-						href="javascript:void(0)">ADD BLOG</a> - <a
-						href="javascript:void(0)">REMOVE LIST</a></span>
-				</h3>
-				<div>
-					<ul>
-						<li>Blog 1</li>
-						<li>Blog 2</li>
-						<li>Blog 3</li>
-						<li>Blog 1</li>
-						<li>Blog 2</li>
-						<li>Blog 3</li>
-						<li>Blog 1</li>
-						<li>Blog 2</li>
-						<li>Blog 3</li>
-						<li>Blog 1</li>
-						<li>Blog 2</li>
-						<li>Blog 3</li>
-					</ul>
-				</div>
-				<h3 id="2">
-					Third List<span class="bloglistbuttons"><a class="addBlog"
-						href="javascript:void(0)">ADD BLOG</a> - <a
-						href="javascript:void(0)">REMOVE LIST</a></span>
-				</h3>
-				<div>
-					<ul>
-						<li>Blog 1</li>
-						<li>Blog 2</li>
-						<li>Blog 3</li>
-					</ul>
-				</div>
+			
 			</div>
 			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD
 				LIST</a>
