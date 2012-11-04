@@ -7,12 +7,13 @@ var listId;
 function init() {
 	res();
 	$(window).resize(res);
-	$( "#accordion" ).accordion();
+	$(".blogButtons a").button()
+	$( "#accordion" ).accordion({heightStyle: "content"});
 	$("#addlist").button();
 	$(".bloglistbuttons a").button();
-	$(".lolwut a").hover(function() {$(this).css("text-decoration", "underline");}, function() {$(this).css("text-decoration", "none");});
+	$( "#addBlogTabs" ).tabs({heightStyle: "auto"});
 
-	$( "#dialog" ).dialog({
+	$( "#dialogAddBloglist" ).dialog({
         autoOpen: false,
         modal: true,
         resizable: false,
@@ -37,7 +38,49 @@ function init() {
             }
         },
         open: function() {
-            $("#dialog").keypress(function(e) {
+            $("#dialogAddBloglist").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+          },
+        close: function() {
+        	var name = $("#name");
+            name.removeClass( "ui-state-error" );
+            document.getElementById("name").value = "";
+            var tips = $(".validateTips");
+            tips.text("");
+        }
+    });
+	
+	$( "#dialogAddBlog" ).dialog({
+        autoOpen: true,
+        modal: true,
+        resizable: false,
+        width: 500,
+        buttons: {
+            "Add list": function() {
+            	var name = $("#name");
+                var bValid = true;
+                name.removeClass( "ui-state-error" );
+
+                bValid = bValid && checkLength( name, "bloglist name", 2, 32 );
+                bValid = bValid && checkRegexp( name, /^[a-z]([0-9a-z_ ])+$/i, "Bloglist name may consist of a-z, 0-9, underscores, begin with a letter." );
+
+                if ( bValid ) {
+                    $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
+                    	location.reload();
+                    });
+                    $( this ).dialog( "close" );
+                }
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialogAddBloglist").keypress(function(e) {
               if (e.keyCode == $.ui.keyCode.ENTER) {
                 $(this).parent().find("button:eq(0)").trigger("click");
                 return false;
@@ -79,7 +122,7 @@ function init() {
 //		$("#darken").show();
 //		$("#darken").animate({opacity: "0.6"});
 //		$("#addListWindow").show(200);
-		$( "#dialog" ).dialog( "open" );
+		$( "#dialogAddBloglist" ).dialog( "open" );
 	});
 	
 	$("#cancelAddListButton").click(function () {
@@ -257,11 +300,8 @@ function addClickListeners() {
 	});
 	
 	$(".addBlog").click(function (eventObject) {
-//		$("#darken").show();
-		console.log("addBlog button pressed");
-//		$("#darken").animate({opacity: "0.6"});
-//		$("#addBlogWindow").show(200);
-//		listId = bloglists[parseInt(eventObject.currentTarget.parentNode.parentNode.children[0].id)].id;
+	$("#addBlogWindow").show(200);
+		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
 	});
 }
 

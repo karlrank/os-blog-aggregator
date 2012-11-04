@@ -22,27 +22,9 @@
     	google.load("feeds", "1");
     </script>
 <title>Book Blog Aggreator</title>
-<style>
-	body{
-		font: 62.5% "Arial", sans-serif;
-	}
-	.bloglistbuttons {
-		float: right;
-	}
-	body { font-size: 62.5%; }
-        label, input { display:block; }
-        input.text { margin-bottom:12px; width:95%; padding: .4em; }
-        fieldset { padding:0; border:0; margin-top:25px; }
-        h1 { font-size: 1.2em; margin: .6em 0; }
-        div#users-contain { width: 350px; margin: 20px 0; }
-        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
-        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
-        .ui-dialog .ui-state-error { padding: .3em; }
-        .validateTips { border: 1px solid transparent; padding: 0.3em; }
-	</style>
 </head>
 
-<body>
+<body class="blogs">
 	<div id="addBlogWindow">
 		<h3>Blog Feed URL</h3>
 		<input type="text" size="80" id="blogUrlInput" maxlength="200"
@@ -85,18 +67,24 @@
 	</header>
 	<div id="main">
 		<div id="blogsContainer">
-			<h2>MY BLOGS</h2>
 			<br />
 			<div id="accordion">
-				<h3>First List<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
-				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
-				<h3>Second List<span class="bloglistbuttons"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
-				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
-				<h3>Third List<span class="bloglistbuttons"><a href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<h3 id="0">First List<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<div>
+					<ul>
+						<li>Blog 1 <span class="blogButtons"><a href="javascript:void(0)">EDIT TAGS</a><a href="javascript:void(0)">REMOVE BLOG</a></span></li>
+						<li>Blog 2 <span class="blogButtons"><a href="javascript:void(0)">EDIT TAGS</a><a href="javascript:void(0)">REMOVE BLOG</a></span></li>
+						<li>Blog 3 <span class="blogButtons"><a href="javascript:void(0)">EDIT TAGS</a><a href="javascript:void(0)">REMOVE BLOG</a></span></li>
+					</ul>
+				</div>
+				<h3 id="1">Second List<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
+				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
+				<h3 id="2">Third List<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a> - <a href="javascript:void(0)">REMOVE LIST</a></span></h3>
 				<div><ul><li>Blog 1</li><li>Blog 2</li><li>Blog 3</li></ul></div>
 			</div>
 			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
-			<div id="dialog" title="Add bloglist">
+			
+			<div id="dialogAddBloglist" title="Add bloglist">
 				<p class="validateTips"></p>
 				<form>
 					<fieldset>
@@ -104,6 +92,46 @@
 						<input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all" />
 					</fieldset>
 				</form>
+			</div>
+			
+			<div id="dialogAddBlog" title="Add blog">
+				<div id="addBlogTabs">
+			    <ul>
+			        <li><a href="#tabs-1">Add by url</a></li>
+			        <li><a href="#tabs-2">Direct import from Google Reader</a></li>
+			        <li><a href="#tabs-3">OPML import</a></li>
+			    </ul>
+			    <div id="tabs-1">
+			    	<p class="validateTips"></p>
+					<form>
+						<fieldset>
+							<label for="blogName">Blog RSS feed URL</label>
+							<input type="text" name="blogName" id="blogName" class="text ui-widget-content ui-corner-all" />
+						</fieldset>
+					</form>
+			    </div>
+			    <div id="tabs-2">
+			    	<p class="validateTips">
+			    		To import directly from google reader google account password is required. The password will not be saved nor used for anything else then this.
+			    	</p>
+					<form>
+						<fieldset>
+							<label for="googleAccountPassword">Google account password</label>
+							<input type="password" name="googleAccountPassword" id="googleAccountPassword" class="text ui-widget-content ui-corner-all" />
+						</fieldset>
+					</form>
+			    </div>
+			    <div id="tabs-3">
+			    	<p class="validateTips"></p>
+					<form>
+						<fieldset>
+							<label for="OPML">Upload the file exported from google reader</label>
+							<input type="file" name="OPML" id="OPML" class="text ui-widget-content ui-corner-all" />
+						</fieldset>
+					</form>
+			    </div>
+			</div>
+
 			</div>
 		</div>
 	</div>
