@@ -254,6 +254,10 @@ table {
 	text-shadow: none;
 }
 
+#dialogAddMultipleBlogs input{
+	display: inline;
+}
+
 .blogs { font: 62.5% "Arial", sans-serif; }
 label, input { display:block; }
 input.text { margin-bottom:12px; width:95%; padding: .4em; }

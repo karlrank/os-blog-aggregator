@@ -8,6 +8,31 @@ function init() {
 	res();
 	$(window).resize(res);
 	
+	$("#dialogAddMultipleBlogs").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "Add blogs": function() {
+            	
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialogAddMultipleBlogs").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+          },
+        close: function() {
+        	
+        }
+	});
+	
 	$( "#dialogAddBloglist" ).dialog({
         autoOpen: false,
         modal: true,
@@ -119,7 +144,10 @@ function init() {
             				$(opml).addClass( "ui-state-error" );
             			}
             			else {
-            				console.log("es ok");
+            				for (var i = 0; i < bloglist.length; i++) {
+            					$("#addMultipleBlogsUL").append('<li><input type="checkbox"> ' + bloglist[i].title + '</li>');
+            					$("#dialogAddMultipleBlogs").dialog("open");
+            				}
             			}
             		};
               	  	break;
@@ -287,11 +315,11 @@ function createBloglist (jsonList) {
 		
 		for (var i = 0; i < jsonList.body.outline.length; i++) {
 			if (jsonList.body.outline[i].xmlUrl !== undefined) {
-				bloglist.push(new Blog(jsonList.body.outline[i].xmlUrl, jsonList.body.outline[i].title));
+				bloglist.push(new Blog(jsonList.body.outline[i].title, jsonList.body.outline[i].xmlUrl));
 			}
 			else {
 				for (var j = 0; j < jsonList.body.outline[i].outline.length; j++) {
-					bloglist.push(new Blog(jsonList.body.outline[i].outline[j].xmlUrl, jsonList.body.outline[i].outline[j].title));
+					bloglist.push(new Blog(jsonList.body.outline[i].outline[j].title, jsonList.body.outline[i].outline[j].xmlUrl));
 				}
 			}
 			

@@ -123,5 +123,33 @@
 		</div>
 
 	</div>
+	
+	<div id="dialogAddMultipleBlogs" title="Select blogs to be added">
+		<p class="validateTips">Select blogs to be added</p>
+		<br />
+		<ul><li><input id="selectAll" type="checkbox"> Select/Unselect all</li></ul>
+		<br />
+		<ul id="addMultipleBlogsUL">			
+		</ul>
+	</div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
