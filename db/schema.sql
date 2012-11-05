@@ -10,7 +10,7 @@ selectedList INT);
 
 CREATE TABLE blog(
 id int not null AUTO_INCREMENT primary key,
-title VARCHAR(32) not null,
+title VARCHAR(100) not null,
 xmlUrl varchar(200) not null,
 unique (xmlUrl));
 

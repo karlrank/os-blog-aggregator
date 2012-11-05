@@ -1,8 +1,10 @@
 
 var bloglists;
+var inputBlogs;
 var entries;
 var blogId;
 var listId;
+var sent = 0;
 
 function init() {
 	res();
@@ -14,7 +16,21 @@ function init() {
 		resizable: false,
 		buttons: {
             "Add blogs": function() {
+            	var blogs = document.getElementById("addMultipleBlogsUL");
             	
+            	
+            	for ( var i = 0; i < blogs.children.length; i++) {
+					if (blogs.children[i].children[0].checked) {
+						sent++;
+						$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: inputBlogs[i].title, blogUrl: inputBlogs[i].xmlUrl} , function() {
+							sent--;
+							if (sent == 0) {
+								location.reload();
+							}
+    	    			});
+					}
+				}
+            	 $( this ).dialog( "close" );
             },
             Cancel: function() {
                 $( this ).dialog( "close" );
@@ -29,7 +45,8 @@ function init() {
             });
           },
         close: function() {
-        	
+        	var blogs = document.getElementById("addMultipleBlogsUL");
+        	blogs.innerHTML = "";
         }
 	});
 	
@@ -122,6 +139,7 @@ function init() {
             		console.log("Password tab");
             		break;
             	case 2:
+            		sessionStorage.activeList = activeList;
             		var opml = document.getElementById("OPML");
             		$(opml).removeClass( "ui-state-error" );
             		$(opml).parent().parent().prev().html('<img src="img/ajax-loader.gif" alt="loading">');
@@ -144,8 +162,9 @@ function init() {
             				$(opml).addClass( "ui-state-error" );
             			}
             			else {
+            				inputBlogs = bloglist;
             				for (var i = 0; i < bloglist.length; i++) {
-            					$("#addMultipleBlogsUL").append('<li><input type="checkbox"> ' + bloglist[i].title + '</li>');
+            					$("#addMultipleBlogsUL").append('<li><input class="blogCheckbox" type="checkbox"> ' + bloglist[i].title + '</li>');
             					$("#dialogAddMultipleBlogs").dialog("open");
             				}
             			}
@@ -288,6 +307,18 @@ function addClickListeners() {
 	$(".addBlog").click(function (eventObject) {
 		$("#dialogAddBlog").dialog("open");
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
+	});
+	
+	$("#selectAll").click(function(event) {
+		var checked = false;
+		if(event.currentTarget.checked) {
+			checked = true;
+		}
+		else {
+			checked = false;
+		}
+		
+		$(".blogCheckbox").attr("checked", checked);
 	});
 }
 
