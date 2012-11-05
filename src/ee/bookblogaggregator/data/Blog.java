@@ -10,12 +10,11 @@ public class Blog {
 		super();
 	}
 
-	public Blog(long id, String title, String xmlUrl, String htmlUrl) {
+	public Blog(long id, String title, String xmlUrl) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.xmlUrl = xmlUrl;
-		this.htmlUrl = htmlUrl;
 	}
 	
 	public String getTitle() {
