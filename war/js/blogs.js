@@ -7,8 +7,8 @@ var listId;
 var sent = 0;
 
 function init() {
-	res();
-	$(window).resize(res);
+//	res();
+//	$(window).resize(res);
 	
 	$("#dialogAddMultipleBlogs").dialog({
 		autoOpen: false,

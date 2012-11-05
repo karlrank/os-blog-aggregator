@@ -48,16 +48,16 @@ nav {
 }
 
 .login {
-	position: fixed;
+	position: absolute;
 	right: 30px;
 	top: 110px;
 }
 
 .listSelect {
 	width: 200px;
-	position: fixed;
+	position: relative;
 	left: 30px;
-	top: 110px;
+	top: -10px;
 }
 
 #listSelectContainer {

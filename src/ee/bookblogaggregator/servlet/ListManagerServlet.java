@@ -83,7 +83,7 @@ public class ListManagerServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		else if (request.getParameter("action").equals("addBlog")) { //will be implemented, half done
+		else if (request.getParameter("action").equals("addBlog")) {
 			String blogUrl = request.getParameter("blogUrl");
 			long listId = Long.parseLong(request.getParameter("listId"));
 			String blogTitle = request.getParameter("blogTitle");

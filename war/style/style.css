@@ -46,8 +46,7 @@ a:HOVER {
 header {
 	padding: 15px;
 	background-color: white;
-	position: fixed;
-	width: 100%;
+	width: 98%;
 	text-align: center;
 	height: 140px;
 	z-index: 2;  
@@ -59,12 +58,7 @@ footer {
 }
 
 #main {
-	postion: fixed;
-	top: 170px;
 	width: 100%;
-	overflow: scroll;
-	Overflow-x: hidden;
-	padding-bottom: 15px;
 }
 
 #left {
@@ -256,6 +250,10 @@ table {
 
 #dialogAddMultipleBlogs input{
 	display: inline;
+}
+
+#selection {
+	width: 250px;
 }
 
 .blogs { font: 62.5% "Arial", sans-serif; }

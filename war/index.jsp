@@ -26,7 +26,11 @@
 	  		<img id="logo" alt="Logo" src="img/logo.png" />
 	  		
 		  		<ul class="listSelect blue">
-		  			<li><a href="#" title="Select list" id="selectList" class="current"><span>SELECT LIST</span></a></li>
+		  			<form action="">
+		  				<label for="selection">Select List</label>
+						<select id="selection" name="selection">
+						</select>
+					</form>
 		  		</ul>
 	  		<nav>
 	  		

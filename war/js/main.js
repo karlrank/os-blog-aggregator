@@ -11,10 +11,12 @@ function init() {
 		if (bloglists !== null) {
 			for (var i = 0; i < bloglists.length; i++) {
 				if (i == selectedList) {
-					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list current"><span>' + bloglists[i].name + '</span></a></li>');
+//					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list current"><span>' + bloglists[i].name + '</span></a></li>');
+					$("#selection").append('<option selected="selected" value="' + i + '">' + bloglists[i].name + '</option>');
 				}
 				else {
-					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
+//					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
+					$("#selection").append('<option value="' + i + '">' + bloglists[i].name + '</option>');
 				}
 			}
 			
@@ -24,6 +26,11 @@ function init() {
 				$(".list").removeClass("current");
 				$(event.currentTarget).addClass("current");
 			});
+			
+			$("#selection").change(function(event) {
+				listId = event;
+				displayBlogs(bloglists, $("#selection option:selected").val());
+			});
 	    
 			
 			displayBlogs(bloglists, selectedList);
@@ -31,8 +38,8 @@ function init() {
 		
   });
 	
-	res();
-	$(window).resize(res);
+//	res();
+//	$(window).resize(res);
 }
 
 window.onload = init;
