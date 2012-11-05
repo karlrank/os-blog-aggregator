@@ -7,7 +7,7 @@ var listId;
 function init() {
 	res();
 	$(window).resize(res);
-
+	
 	$( "#dialogAddBloglist" ).dialog({
         autoOpen: false,
         modal: true,
@@ -62,14 +62,14 @@ function init() {
             	switch(active)
             	{
             	case 0:
-            		$(".validateTips").html('<img src="img/ajax-loader.gif" alt="loading">');
             		
             		var url = $("#blogUrl");
+            		$(url).parent().parent().prev().html('<img src="img/ajax-loader.gif" alt="loading">');
                     var bValid = true;
                     url.removeClass( "ui-state-error" );
                     
                     bValid = bValid && checkLength( url, "blog url", 2, 200 );
-                    bValid = bValid && checkRegexp( url, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, "Blog RSS url must be an url!" );
+                    bValid = bValid && checkRegexp( url, /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/, "Blog RSS url must be an url." );
             		
                     if ( bValid ) {
                     	sessionStorage.activeList = activeList;
@@ -87,7 +87,7 @@ function init() {
                 	    	}
                 	    	else {
                 	    		url.addClass( "ui-state-error" );
-                	            updateTips("Error with given RSS url. Check url and try again.");
+                	            updateTips("Error with given RSS url. Check url and try again.", url);
                 	    	}
                 	    });
                     }
@@ -97,7 +97,31 @@ function init() {
             		console.log("Password tab");
             		break;
             	case 2:
-            		console.log("OPML tab");
+            		var opml = document.getElementById("OPML");
+            		$(opml).removeClass( "ui-state-error" );
+            		$(opml).parent().parent().prev().html('<img src="img/ajax-loader.gif" alt="loading">');
+            		var file = opml.files[0];
+            		var reader = new FileReader();
+            		var jsonOPML;
+            		
+            		if (file === undefined) {
+            			updateTips("Select an input file.", opml);
+            			break;
+            		}
+            		
+            		reader.readAsText(file);
+            		reader.onload = function () {
+            			updateTips("", opml);
+            			jsonOPML = $.xml2json(reader.result);
+            			var bloglist = createBloglist(jsonOPML);
+            			if (bloglist == false) {
+            				updateTips("Error parsing file.", opml);
+            				$(opml).addClass( "ui-state-error" );
+            			}
+            			else {
+            				console.log("es ok");
+            			}
+            		};
               	  	break;
             	}
 
@@ -122,7 +146,7 @@ function init() {
 		bloglists = $.parseJSON(result);
 		
 		if (bloglists.length == 1 && !isLoggedIn()) {
-			$("#bloglists").html("Log in to manage your bloglists.");
+			$("#accordion").html("Log in to manage your bloglists.");
 			$("#addlist").hide();
 		}
 		else if (bloglists.length == 1 && isLoggedIn()) {
@@ -154,8 +178,8 @@ function init() {
 
 window.onload = init;
 
-function updateTips( t ) {
-	var tips = $(".validateTips");
+function updateTips(t, o) {
+	var tips = $(o).parent().parent().prev();
     tips.text( t ).addClass( "ui-state-highlight" );
     setTimeout(function() {
         tips.removeClass( "ui-state-highlight", 1500 );
@@ -166,7 +190,7 @@ function checkLength( o, n, min, max ) {
     if ( o.val().length > max || o.val().length < min ) {
         o.addClass( "ui-state-error" );
         updateTips( "Length of " + n + " must be between " +
-                min + " and " + max + "." );
+                min + " and " + max + ".", o);
         return false;
     } else {
         return true;
@@ -176,7 +200,7 @@ function checkLength( o, n, min, max ) {
 function checkRegexp( o, regexp, n ) {
     if ( !( regexp.test( o.val() ) ) ) {
         o.addClass( "ui-state-error" );
-        updateTips( n );
+        updateTips(n, o);
         return false;
     } else {
         return true;
@@ -239,10 +263,42 @@ function addClickListeners() {
 	});
 }
 
+function Blog(title, xmlUrl) {
+	this.title = title;
+	this.xmlUrl = xmlUrl;
+}
 
-
-
-
+function createBloglist (jsonList) {
+	if (jsonList.body.outline === undefined) {
+		return false;
+	}
+	
+	if (jsonList.body.outline.length === undefined) {
+		var list = jsonList.body.outline.outline;
+		var bloglist = new Array();
+		for (var i = 0; i < list.length; i++) {
+			var blog = new Blog(list[i].title, list[i].xmlUrl);
+			bloglist.push(blog);
+		}
+		return bloglist;
+	}
+	else {
+		var bloglist = new Array();
+		
+		for (var i = 0; i < jsonList.body.outline.length; i++) {
+			if (jsonList.body.outline[i].xmlUrl !== undefined) {
+				bloglist.push(new Blog(jsonList.body.outline[i].xmlUrl, jsonList.body.outline[i].title));
+			}
+			else {
+				for (var j = 0; j < jsonList.body.outline[i].outline.length; j++) {
+					bloglist.push(new Blog(jsonList.body.outline[i].outline[j].xmlUrl, jsonList.body.outline[i].outline[j].title));
+				}
+			}
+			
+		}
+		return bloglist;
+	}
+}
 
 
 
