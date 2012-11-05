@@ -37,17 +37,11 @@ public class ListManagerServlet extends HttpServlet {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
-				String statement = "insert into bloglist (listName) values ( ? );";
+				String statement = "insert into bloglist(listName,email) values ( ?, ? );";
 				PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.setString(1, listName);
-				stmt.execute();
-				statement = "call addBloglistToUser( ?, ? );";
-				stmt = c.prepareStatement(statement);
-				stmt.setString(1, userService.getCurrentUser().getEmail());
-				stmt.setString(2, listName);
-				stmt.execute();
-				c.close();
-				
+				stmt.setString(2, userService.getCurrentUser().getEmail());
+				stmt.execute();				
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -113,11 +107,10 @@ public class ListManagerServlet extends HttpServlet {
 					stmt.execute();
 				}
 				else {
-					statement = "INSERT into blog (title, xmlUrl, htmlUrl) values ( ? ,? ,? )";
+					statement = "INSERT into blog (title, xmlUrl) values ( ? ,? )";
 					PreparedStatement preparedStatement = c.prepareStatement(statement);
 					preparedStatement.setString(1, blogTitle);
 					preparedStatement.setString(2, blogUrl);
-					preparedStatement.setString(3, new String());
 					preparedStatement.execute();
 					statement = "SELECT id FROM blog WHERE xmlUrl = ?;";
 					PreparedStatement statement2 = c.prepareStatement(statement);
