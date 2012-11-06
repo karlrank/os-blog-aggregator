@@ -7,8 +7,59 @@ var listId;
 var sent = 0;
 
 function init() {
-//	res();
-//	$(window).resize(res);
+	
+	$("#dialogConfirmBlogDelete").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "Delete blog": function() {
+            	$.post("/listmanager", { action: "removeBlog", listId: listId, blogId: blogId } , function() {
+        			location.reload();
+        		});
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialogConfirmBlogDelete").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+          },
+        close: function() {
+        }
+	});
+	
+	$("#dialogConfirmListDelete").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "Delete bloglist": function() {
+            	$.post("/listmanager", { action: "removeList", listId: listId } , function() {
+        			location.reload();
+        		});
+        		sessionStorage.activeList = 0;
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialogConfirmListDelete").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+          },
+        close: function() {
+        }
+	});
 	
 	$("#dialogAddMultipleBlogs").dialog({
 		autoOpen: false,
@@ -289,19 +340,14 @@ function addClickListeners() {
 	
 	$(".removeList").click(function (eventObject) {
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
-		$.post("/listmanager", { action: "removeList", listId: listId } , function() {
-			location.reload();
-		});
+		$("#dialogConfirmListDelete").dialog("open");
 	});
 	
 	$(".removeBlog").click(function (eventObject) {
-		var blogId = eventObject.currentTarget.id.split(".")[1];
+		blogId = eventObject.currentTarget.id.split(".")[1];
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.parentElement.parentElement.previousSibling.id)].id;
-		console.log(blogId, listId);
-		
-		$.post("/listmanager", { action: "removeBlog", listId: listId, blogId: blogId } , function() {
-			location.reload();
-		});
+		sessionStorage.activeList = $("#accordion").accordion("option", "active");
+		$("#dialogConfirmBlogDelete").dialog("open");
 	});
 	
 	$(".addBlog").click(function (eventObject) {
