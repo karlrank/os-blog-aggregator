@@ -14,24 +14,20 @@ import com.google.appengine.api.users.UserServiceFactory;
 import java.net.*;
 import java.io.*;
 
-public class TestServlet extends HttpServlet {
+public class GoogleReaderImportServelet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(ListManagerServlet.class.getName());
 	
-    public TestServlet() {
+    public GoogleReaderImportServelet() {
         super();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		UserService userService = UserServiceFactory.getUserService();
 		
-//		String userEmail = request.getParameter("email");
 		String userEmail = userService.getCurrentUser().getEmail();
 		String userPassword = request.getParameter("password");
-//		String userEmail = "ceroblogtest@gmail.com";
-//		String userPassword = "BlogTest1";
-		log.info(userEmail + ", " + userPassword);
 		
 		URL googleClientLogin = new URL("https://www.google.com/accounts/ClientLogin?service=reader&Email=" + userEmail + "&Passwd=" + userPassword);
 		URLConnection googleClientLoginConnection = googleClientLogin.openConnection();
@@ -52,7 +48,7 @@ public class TestServlet extends HttpServlet {
 			in.close();
 		}
 		else {
-			response.getWriter().println("Problem getting auth token");
+			response.getWriter().println(0);
 		}
 		
 		

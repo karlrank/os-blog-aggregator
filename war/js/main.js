@@ -11,11 +11,9 @@ function init() {
 		if (bloglists !== null) {
 			for (var i = 0; i < bloglists.length; i++) {
 				if (i == selectedList) {
-//					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list current"><span>' + bloglists[i].name + '</span></a></li>');
 					$("#selection").append('<option selected="selected" value="' + i + '">' + bloglists[i].name + '</option>');
 				}
 				else {
-//					$(".listSelect").append('<li><a id="listitem.' + i + '" href="javascript:void(0)" title="Select list" class="list"><span>' + bloglists[i].name + '</span></a></li>');
 					$("#selection").append('<option value="' + i + '">' + bloglists[i].name + '</option>');
 				}
 			}
@@ -37,9 +35,6 @@ function init() {
 		}
 		
   });
-	
-//	res();
-//	$(window).resize(res);
 }
 
 window.onload = init;
@@ -47,7 +42,7 @@ window.onload = init;
 
 function displayBlogs (bloglists, selectedList) {
 	
-	var numToLoad = 4;
+	var numToLoad = 7;
 	var bloglist = new Array();
 	for (var i = 0; i < bloglists[selectedList].blogs.length; i++) {
 		bloglist.push(bloglists[selectedList].blogs[i].xmlUrl);
@@ -66,17 +61,6 @@ function displayBlogs (bloglists, selectedList) {
 	    			}
 	    	}
 	    });
-	}
-}
-
-function res() {
-	$("#main").css("position", "fixed");
-	$("#main").css("height", $("body").height() - 185 + "px");
-	if ($("body").width() < 1150) {
-		$("#right").hide();
-	}
-	else {
-		$("#right").show();
 	}
 }
 
@@ -104,7 +88,7 @@ function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, pos
 	
 	var h2 = document.createElement("h2");
 	var a1 = document.createElement("a");
-	a1.href = postUrl;
+	a1.href = postUrl + "?utm_source=osblogaggregator";
 	a1.innerHTML = postTitle;
 	var span = document.createElement("span");
 	span.className = "blogpost_source";
@@ -155,7 +139,13 @@ function displayResults(entries) {
     $(container).html("");
     for ( var i = 0; i < entries.length; i++) {
     	var entry = entries[i];
-    	container.appendChild(generatePostHtml($(entry.content).find('img').eq(0).attr('src'), entry.title, entry.link, "sourceUrl", entry.author, entry.content + entry.publishedDate));    	  
+    	var imgsrc = undefined;
+    	try {
+    		imgsrc = $(entry.content).find('img').eq(0).attr('src');
+    	  }
+    	catch(err) {}
+    	
+    	container.appendChild(generatePostHtml(imgsrc, entry.title, entry.link, "sourceUrl", entry.author, entry.content + entry.publishedDate));    	  
     }
     container.appendChild(document.createElement("br"));
     
@@ -182,9 +172,9 @@ function displayResults(entries) {
 			$(targetPost).animate({height: '120px'}, 500);
 			$(event.currentTarget).hide();
 		});
-//    $(".blogpost div").hide();
     $(".blogpost table").hide();
     $(".blogpost img:nth-child(1)").hide();
+    $(".blogpost_image").css("max-width", "150px")
 }
 
 
