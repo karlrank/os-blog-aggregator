@@ -146,13 +146,17 @@
 	
 	<target name="runtests" description="Deletes database schema objects.">
 		<parallel threadCount="2">
-			
 			<exec executable="python"> 
-			    <arg value="test/easy.py"/>
+			    <arg value="test/AddBlogList.py"/>
 			</exec>
-			
 			<exec executable="python"> 
-				<arg value="test/easy2.py"/>
+				<arg value="test/AddBlogToList.py"/>
+			</exec>
+			<exec executable="python"> 
+				<arg value="test/RemoveBlogFromList.py"/>
+			</exec>
+			<exec executable="python"> 
+				<arg value="test/UserLogInAndOut.py"/>
 			</exec>
 			
 		</parallel>

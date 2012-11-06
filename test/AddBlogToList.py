@@ -31,7 +31,7 @@ class AddBlogToList(unittest.TestCase):
         if (driver.find_element_by_xpath("(//button[@type='button'])[7]")):
             print "blogi listi lisatud"
         else:
-            print "blogi lisamine ebaõnnestus!"
+            print "blogi lisamine ebaonnestus!"
         driver.find_element_by_css_selector("a[title=\"Sign out\"] > span").click()
     
     def is_element_present(self, how, what):
