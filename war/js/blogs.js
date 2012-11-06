@@ -187,7 +187,35 @@ function init() {
                     
             		break;
             	case 1:
-            		console.log("Password tab");
+            		sessionStorage.activeList = activeList;
+            		var GAPassword = document.getElementById("googleAccountPassword");
+            		$(GAPassword).removeClass( "ui-state-error" );
+            		$(GAPassword).parent().parent().prev().html('<img src="img/ajax-loader.gif" alt="loading">');
+            		var password = GAPassword.value;
+            		
+            		$.post("/gReaderImport", { password: password} , function(result) {
+	    				if (result == 0) {
+	    					updateTips("Error retrieving google reader subscriptions. Possibly wrong password.", GAPassword);
+	    					$(GAPassword).addClass( "ui-state-error" );
+	    				}
+	    				else {
+	    					updateTips("Subscriptions loaded.", GAPassword);
+	    					var bloglist = createBloglistGreader($.parseJSON(result));
+	    					
+	    					if (bloglist == false) {
+	            				updateTips("Error parsing file.", GAPassword);
+	            				$(GAPassword).addClass( "ui-state-error" );
+	            			}
+	            			else {
+	            				inputBlogs = bloglist;
+	            				for (var i = 0; i < bloglist.length; i++) {
+	            					$("#addMultipleBlogsUL").append('<li><input class="blogCheckbox" type="checkbox"> ' + bloglist[i].title + '</li>');
+	            					$("#dialogAddMultipleBlogs").dialog("open");
+	            				}
+	            			}
+	    				}
+	    			});
+            		
             		break;
             	case 2:
             		sessionStorage.activeList = activeList;
@@ -405,6 +433,17 @@ function createBloglist (jsonList) {
 	}
 }
 
+function createBloglistGreader(jsonList) {
+	if(jsonList.subscriptions === undefined) {
+		return false;
+	}
+	
+	var bloglist = new Array();
+	for (var i = 0; i < jsonList.subscriptions.length; i++) { 
+		bloglist.push(new Blog(jsonList.subscriptions[i].title, jsonList.subscriptions[i].id.substring(5)));
+	}
+	return bloglist;
+}
 
 
 

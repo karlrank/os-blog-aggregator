@@ -41,7 +41,7 @@ public class BloglistsServlet extends HttpServlet {
 			c = DriverManager
 					.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 
-			String statement = "select blog_id,title,xmlUrl, count(*) as popularity from blog_bloglist, blog where blog_id = id group by blog_id order by popularity desc;";
+			String statement = "select blog_id,title,xmlUrl, count(*) as popularity from blog_bloglist, blog where blog_id = id group by blog_id order by popularity desc LIMIT 0, 5;";
 			PreparedStatement stmt = c.prepareStatement(statement);
 			ResultSet rs = stmt.executeQuery();
 

@@ -34,7 +34,7 @@
 			<ul class="blue">
 				<li><a href="/" title="HOME"><span>HOME</span></a></li>
 				<li><a href="/top.htm" title="TOP"><span>TOP</span></a></li>
-				<li><a href="blogs.jsp" title="MY BLOGS" class="current"><span>MY
+				<li><a href="my-blogs" title="MY BLOGS" class="current"><span>MY
 							BLOGS</span></a></li>
 				<li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
 			</ul>
