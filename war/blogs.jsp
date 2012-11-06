@@ -132,6 +132,13 @@
 		<ul id="addMultipleBlogsUL">			
 		</ul>
 	</div>
+	
+	<div id="dialogConfirmBlogDelete" title="Confrim blog deletion">
+		<p class="validateTips">Would you like to delete this blog?</p>
+	</div>
+	<div id="dialogConfirmListDelete" title="Confrim bloglist deletion">
+		<p class="validateTips">Would you like to delete this bloglist?</p>
+	</div>
 </body>
 </html>
 
