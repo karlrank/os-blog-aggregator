@@ -1,5 +1,3 @@
-
-
 #Listid Kasutajalt
 select listName from bloglist where email='test@gmail.com';
 

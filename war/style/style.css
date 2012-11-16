@@ -247,12 +247,25 @@ table {
 	bottom: 3px;
 }
 
+#editTagsUL .ui-button-text {
+	font-size: 0.75em;
+}
+
+.tagRemove {
+	position: relative;
+	bottom: 3px;
+}
+
 #selection {
 	width: 250px;
 }
 
 .tags input , .tags label{
 	display: inline-block;
+}
+
+#editTagsUL li {
+	line-height: 2em;
 }
 
 .blogs { font: 62.5% "Arial", sans-serif; }

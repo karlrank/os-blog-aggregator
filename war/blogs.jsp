@@ -143,14 +143,12 @@
 	<div id="dialogEditTags" title="Edit blogs tags">
 		<p class="validateTips"></p>
 		<br />
-		<ul id="editTagsUL">			
-		</ul>
-		asdasdasddadsdsadasdasd
+		<ul id="editTagsUL"></ul>
 		<br /><br />
 		<div class="ui-widget tags">
 		    <label for="tags">Tags: </label>
 		    <input id="tags" />
-		    <a href="javascript:void(0)">ADD</a>
+		    <a id="addTagButton" href="javascript:void(0)">ADD</a>
 		</div>
 	</div>
 	
