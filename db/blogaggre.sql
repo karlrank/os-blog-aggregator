@@ -11,7 +11,7 @@ BLOGLIST_ID IN (select id from bloglist where listName='Esimene List'));
 #Tags by Blog
 select name from tag where 
 id IN (select TAG_ID from blog_tag where 
-BLOG_ID IN (select id from blog where title='Blog2')); 
+BLOG_ID IN (select id from blog where id = 0)); 
 
 #Blogs by tags
 select title,xmlUrl from blog where 
@@ -43,15 +43,15 @@ insert into blog_bloglist
 values (blog_id,bloglist_id);
 
 #Add tag to user 
-insert into test.user_tag
+insert into user_tag
 values (user_id,tag_id);
 
 #Add tag to blog
-insert into test.blog_tag
+insert into blog_tag
 values (blog_id,tag_id);
 
 #Update selectedList
-Update test.user 
+Update user 
 set selectedList=2
 where email='test1@gmail.com';
 
