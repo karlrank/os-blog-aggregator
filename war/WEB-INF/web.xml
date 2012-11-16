@@ -11,6 +11,16 @@
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>tags</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.TagsServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>tags</servlet-name>
+		<url-pattern>/tags</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>blogs</servlet-name>
 		<jsp-file>/blogs.jsp</jsp-file>
 	</servlet>
@@ -28,6 +38,16 @@
 	<servlet-mapping>
 		<servlet-name>listmanager</servlet-name>
 		<url-pattern>/listmanager</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>tagmanager</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.TagManagerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>tagmanager</servlet-name>
+		<url-pattern>/tagmanager</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
