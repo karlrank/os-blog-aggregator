@@ -106,8 +106,9 @@ public class TagsServlet extends HttpServlet {
 			c = DriverManager
 					.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 
-			String statement = "select * from tag;"; //TODO: needs SQL
+			String statement = "select id, name from tag where id in (select tag_id from user_tag where user_email= ?);";
 			PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1, email);
 			ResultSet rs = stmt.executeQuery();
 				List<Tag> tags = new ArrayList<Tag>();
 				
