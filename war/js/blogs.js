@@ -191,7 +191,7 @@ function init() {
             		var GAPassword = document.getElementById("googleAccountPassword");
             		$(GAPassword).removeClass( "ui-state-error" );
             		$(GAPassword).parent().parent().prev().html('<img src="img/ajax-loader.gif" alt="loading">');
-            		var password = GAPassword.value;
+            		var password = encodeURIComponent(GAPassword.value);
             		
             		$.post("/gReaderImport", { password: password} , function(result) {
 	    				if (result == 0) {
