@@ -37,7 +37,7 @@ primary key(BLOG_ID,TAG_ID)
 );
 
 CREATE TABLE user_tag(
-USER_ID INT,
+USER_EMAIL VARCHAR(64),
 TAG_ID INT,
 primary key (USER_ID,TAG_ID));
 

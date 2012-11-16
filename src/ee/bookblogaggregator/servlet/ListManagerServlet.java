@@ -41,7 +41,8 @@ public class ListManagerServlet extends HttpServlet {
 				PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.setString(1, listName);
 				stmt.setString(2, userService.getCurrentUser().getEmail());
-				stmt.execute();				
+				stmt.execute();
+				c.close();
 				
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -78,7 +79,7 @@ public class ListManagerServlet extends HttpServlet {
 				stmt.setLong(1, blogId);
 				stmt.setLong(2, listId);
 				stmt.execute();				
-			c.close();
+				c.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
