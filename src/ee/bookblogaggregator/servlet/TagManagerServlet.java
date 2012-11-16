@@ -105,7 +105,7 @@ public class TagManagerServlet extends HttpServlet {
 			    return "" + rs.getInt(1);
 			}
 			
-			
+			c.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -114,19 +114,75 @@ public class TagManagerServlet extends HttpServlet {
 	}
 	
 	private void addTagToBlog(String tagId, String blogId) {
-		
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+			
+			String statement = "insert into blog_tag values ( ? , ? );";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			stmt.setString(1, blogId);
+			stmt.setString(2, tagId);
+			stmt.executeUpdate();
+			c.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void removeTagFromBlog(String tagId, String blogId) {
-		
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+			
+			String statement = "delete from blog_tag where BLOG_ID = ? and TAG_ID = ?;";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			stmt.setString(1, blogId);
+			stmt.setString(2, tagId);
+			stmt.executeUpdate();
+			c.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void addTagToUser(String tagId, String email) {
-		
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+			
+			String statement = "insert into user_tag values ( ? , ? );";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			stmt.setString(1, email);
+			stmt.setString(2, tagId);
+			stmt.executeUpdate();
+			c.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void removeTagFromUser(String tagId, String email) {
-		
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+			
+			String statement = "delete from user_tag where USER_EMAIL = ? and TAG_ID = ?;";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			stmt.setString(1, email);
+			stmt.setString(2, tagId);
+			stmt.executeUpdate();
+			c.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
