@@ -30,7 +30,6 @@ public class TagManagerServlet extends HttpServlet {
     }
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		createTag("tere2");
 		
 		UserService userService = UserServiceFactory.getUserService();
 		if (userService.isUserLoggedIn()) {	
@@ -51,7 +50,7 @@ public class TagManagerServlet extends HttpServlet {
 					return;
 				}
 			}
-			else {
+			else if (tagId.equals("-1")){
 				response.getWriter().print(0);
 				return;
 			}

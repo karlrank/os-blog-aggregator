@@ -90,7 +90,7 @@ public class BloglistsServlet extends HttpServlet {
 						stmt2.setInt(2,  rs.getInt(1));
 						ResultSet rs2 = stmt2.executeQuery();
 						while (rs2.next()) {
-							bl.addBlog(new Blog(rs2.getLong(1), rs2.getString(2), rs2.getString(3), TagsServlet.getBlogsTags(rs.getString(1))));
+							bl.addBlog(new Blog(rs2.getLong(1), rs2.getString(2), rs2.getString(3), TagsServlet.getBlogsTags(rs2.getString(1))));
 						}
 						output.add(bl);
 					}
