@@ -6,6 +6,8 @@ var blogId;
 var listId;
 var sent = 0;
 var blog;
+var tags;
+var rawTags;
 
 function init() {
 	
@@ -67,24 +69,7 @@ function init() {
 		modal: true,
 		resizable: false,
 		buttons: {
-            "Add blogs": function() {
-            	var blogs = document.getElementById("addMultipleBlogsUL");
-            	
-            	
-            	for ( var i = 0; i < blogs.children.length; i++) {
-					if (blogs.children[i].children[0].checked) {
-						sent++;
-						$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: inputBlogs[i].title, blogUrl: inputBlogs[i].xmlUrl} , function() {
-							sent--;
-							if (sent == 0) {
-								location.reload();
-							}
-    	    			});
-					}
-				}
-            	 $( this ).dialog( "close" );
-            },
-            Cancel: function() {
+            "Done": function() {
                 $( this ).dialog( "close" );
             }
         },
@@ -96,6 +81,7 @@ function init() {
               }
             });
             $("#dialogEditTags").dialog("option", "title", "Edit " + blog.title + "-s tags.");
+            $(".tagRemove").button();
           },
         close: function() {
         	var blogs = document.getElementById("addMultipleBlogsUL");
@@ -310,6 +296,18 @@ function init() {
         }
     });
 	
+	$.getJSON("/tags", {action:"getAllTags"}, function(result) {
+		tags = result;
+		rawTags = [];
+		
+		for (var i = 0;i < tags.length;i++) {
+			rawTags.push(tags[i].name);
+		}
+		$( "#tags" ).autocomplete({
+            source: rawTags
+        });
+	});
+	
 	$.get("/bloglists", function(result) {
 		bloglists = $.parseJSON(result);
 		
@@ -408,6 +406,18 @@ function addClickListeners() {
 	$( "#accordion" ).accordion({heightStyle: "content", active: parseInt(sessionStorage.activeList)});
 	$("#addlist").button();
 	$(".bloglistbuttons a").button();
+	$("#addTagButton").click(function() {
+		tagName = $("#tags").attr("value");
+		tagRawId = $.inArray(tagName, rawTags);
+		if (tagRawId != -1) {
+			tagId = tags[tagRawId].id;
+		}
+		else {
+			tagId = -1;
+		}
+		console.log(tagId, tagName, blogId);
+		//$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId});
+	});
 	
 	$(".removeList").click(function (eventObject) {
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
@@ -424,7 +434,13 @@ function addClickListeners() {
 	$(".editTags").click(function (eventObject) {
 		id = eventObject.currentTarget.parentElement.children[1].id;
 		blogId = id.split(".")[1];
-		blog = bloglists[id.split(".")[2]].blogs[id.split(".")[3]];
+		bloglistId = id.split(".")[2];
+		blogNativeId = id.split(".")[3];
+		blog = bloglists[bloglistId].blogs[id.split(".")[3]];
+		$("#editTagsUL").html("");
+		for (var i = 0;i < blog.tags.length;i++) {
+			$("#editTagsUL").append('<li>' + blog.tags[i].name + '<span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
+		}
 		$("#dialogEditTags").dialog("open");
 	});
 	
