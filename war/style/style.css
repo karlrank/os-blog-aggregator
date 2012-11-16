@@ -26,21 +26,10 @@ nav {
 a {
 	text-decoration: none;
 	color: black;
-	text-shadow: 2px 2px 3px #888888;
 }
 
 a:HOVER {
 	text-decoration: underline;
-}
-#blogsContainer a {
-	text-shadow: none;
-}
-.blogpost a {
-	text-shadow: none;
-}
-
-#right a {
-	text-shadow: none;
 }
 
 header {
@@ -245,16 +234,25 @@ table {
 	font-size: 1em;
 }
 
-.ui-tabs-anchor {
-	text-shadow: none;
-}
-
 #dialogAddMultipleBlogs input{
 	display: inline;
 }
 
+.tags .ui-button-text {
+	font-size: 0.75em;
+}
+
+.tags a {
+	position: relative;
+	bottom: 3px;
+}
+
 #selection {
 	width: 250px;
+}
+
+.tags input , .tags label{
+	display: inline-block;
 }
 
 .blogs { font: 62.5% "Arial", sans-serif; }

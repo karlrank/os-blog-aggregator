@@ -35,10 +35,6 @@ ul.blue li a.current span, ul.blue li a:hover span {
     background: url(../img/menu.png) no-repeat top left;
 }
 
-ul.blue a {
-	text-shadow: none;
-}
-
 nav {
 	top: 95px;
 	position:absolute;

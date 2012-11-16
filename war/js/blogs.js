@@ -5,6 +5,7 @@ var entries;
 var blogId;
 var listId;
 var sent = 0;
+var blog;
 
 function init() {
 	
@@ -58,6 +59,47 @@ function init() {
             });
           },
         close: function() {
+        }
+	});
+	
+	$("#dialogEditTags").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "Add blogs": function() {
+            	var blogs = document.getElementById("addMultipleBlogsUL");
+            	
+            	
+            	for ( var i = 0; i < blogs.children.length; i++) {
+					if (blogs.children[i].children[0].checked) {
+						sent++;
+						$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: inputBlogs[i].title, blogUrl: inputBlogs[i].xmlUrl} , function() {
+							sent--;
+							if (sent == 0) {
+								location.reload();
+							}
+    	    			});
+					}
+				}
+            	 $( this ).dialog( "close" );
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+            $("#dialogAddMultipleBlogs").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(0)").trigger("click");
+                return false;
+              }
+            });
+            $("#dialogEditTags").dialog("option", "title", "Edit " + blog.title + "-s tags.");
+          },
+        close: function() {
+        	var blogs = document.getElementById("addMultipleBlogsUL");
+        	blogs.innerHTML = "";
         }
 	});
 	
@@ -210,8 +252,8 @@ function init() {
 	            				inputBlogs = bloglist;
 	            				for (var i = 0; i < bloglist.length; i++) {
 	            					$("#addMultipleBlogsUL").append('<li><input class="blogCheckbox" type="checkbox"> ' + bloglist[i].title + '</li>');
-	            					$("#dialogAddMultipleBlogs").dialog("open");
 	            				}
+	            				$("#dialogAddMultipleBlogs").dialog("open");
 	            			}
 	    				}
 	    			});
@@ -287,7 +329,7 @@ function init() {
 				
 				for (var j = 0; j < bloglists[i].blogs.length; j++) {
 					var li = document.createElement("li");
-					li.innerHTML = bloglists[i].blogs[j].title + ' <span class="blogButtons"><a href="javascript:void(0)">EDIT TAGS</a><a class="removeBlog" id="blog.' + bloglists[i].blogs[j].id + '" href="javascript:void(0)">REMOVE BLOG</a></span>';
+					li.innerHTML = bloglists[i].blogs[j].title + ' <span class="blogButtons"><a class="editTags" href="javascript:void(0)">EDIT TAGS</a><a class="removeBlog" id="blog.' + bloglists[i].blogs[j].id + '.' + i + '.' + j + '" href="javascript:void(0)">REMOVE BLOG</a></span>';
 					ul.appendChild(li);
 				}
 					$("#accordion").append(div);
@@ -362,6 +404,7 @@ function isLoggedIn() {
 
 function addClickListeners() {
 	$(".blogButtons a").button();
+	$(".tags a").button();
 	$( "#accordion" ).accordion({heightStyle: "content", active: parseInt(sessionStorage.activeList)});
 	$("#addlist").button();
 	$(".bloglistbuttons a").button();
@@ -376,6 +419,13 @@ function addClickListeners() {
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.parentElement.parentElement.previousSibling.id)].id;
 		sessionStorage.activeList = $("#accordion").accordion("option", "active");
 		$("#dialogConfirmBlogDelete").dialog("open");
+	});
+	
+	$(".editTags").click(function (eventObject) {
+		id = eventObject.currentTarget.parentElement.children[1].id;
+		blogId = id.split(".")[1];
+		blog = bloglists[id.split(".")[2]].blogs[id.split(".")[3]];
+		$("#dialogEditTags").dialog("open");
 	});
 	
 	$(".addBlog").click(function (eventObject) {

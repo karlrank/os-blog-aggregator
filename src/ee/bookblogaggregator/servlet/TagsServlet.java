@@ -124,7 +124,7 @@ public class TagsServlet extends HttpServlet {
 		return (new ArrayList<Tag>());
     }
     
-    private List<Tag> getBlogsTags(String blogId) {
+    public static List<Tag> getBlogsTags(String blogId) {
     	Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
