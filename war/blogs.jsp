@@ -139,6 +139,21 @@
 	<div id="dialogConfirmListDelete" title="Confrim bloglist deletion">
 		<p class="validateTips">Would you like to delete this bloglist?</p>
 	</div>
+	
+	<div id="dialogEditTags" title="Edit blogs tags">
+		<p class="validateTips"></p>
+		<br />
+		<ul id="editTagsUL">			
+		</ul>
+		asdasdasddadsdsadasdasd
+		<br /><br />
+		<div class="ui-widget tags">
+		    <label for="tags">Tags: </label>
+		    <input id="tags" />
+		    <a href="javascript:void(0)">ADD</a>
+		</div>
+	</div>
+	
 </body>
 </html>
 

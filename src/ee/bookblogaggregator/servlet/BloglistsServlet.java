@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 
 import ee.bookblogaggregator.data.Blog;
 import ee.bookblogaggregator.data.Bloglist;
+import ee.bookblogaggregator.servlet.TagsServlet;
 
 public class BloglistsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -47,7 +48,7 @@ public class BloglistsServlet extends HttpServlet {
 
 				Bloglist bl = new Bloglist(-1, "Popular");
 				while (rs.next()) {
-					bl.addBlog(new Blog(rs.getLong(1), rs.getString(2), rs.getString(3)));
+					bl.addBlog(new Blog(rs.getLong(1), rs.getString(2), rs.getString(3), TagsServlet.getBlogsTags(rs.getString(1))));
 				}
 				c.close();
 				return(bl);
@@ -89,7 +90,7 @@ public class BloglistsServlet extends HttpServlet {
 						stmt2.setInt(2,  rs.getInt(1));
 						ResultSet rs2 = stmt2.executeQuery();
 						while (rs2.next()) {
-							bl.addBlog(new Blog(rs2.getLong(1), rs2.getString(2), rs2.getString(3)));
+							bl.addBlog(new Blog(rs2.getLong(1), rs2.getString(2), rs2.getString(3), TagsServlet.getBlogsTags(rs.getString(1))));
 						}
 						output.add(bl);
 					}
