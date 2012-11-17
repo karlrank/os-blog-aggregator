@@ -147,7 +147,7 @@
 		<br /><br />
 		<div class="ui-widget tags">
 		    <label for="tags">Tags: </label>
-		    <input id="tags" />
+		    <input maxlength="20" id="tags" />
 		    <a id="addTagButton" href="javascript:void(0)">ADD</a>
 		</div>
 	</div>
