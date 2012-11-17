@@ -45,6 +45,7 @@ public class TagManagerServlet extends HttpServlet {
 			
 			if (tagId.equals("-1") && (action.equals("addTagToBlog") || action.equals("addTagToUser"))) {
 				tagId = createTag(tagName);
+				response.getWriter().print(tagId);
 				if (tagId.equals("")) {
 					response.getWriter().print(0);
 					return;

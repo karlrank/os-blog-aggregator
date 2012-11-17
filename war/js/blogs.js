@@ -74,9 +74,9 @@ function init() {
             }
         },
         open: function() {
-            $("#dialogAddMultipleBlogs").keypress(function(e) {
+            $("#tags").keypress(function(e) {
               if (e.keyCode == $.ui.keyCode.ENTER) {
-                $(this).parent().find("button:eq(0)").trigger("click");
+                $("#addTagButton").trigger("click");
                 return false;
               }
             });
@@ -400,6 +400,38 @@ function isLoggedIn() {
 	}
 }
 
+function addTagToBlog(tag, blogId) {
+	var out = "";
+	for (var i = 1;i < bloglists.length; i++) {
+		for (var j = 0;j < bloglists[i].blogs.length; j++) {
+			if(bloglists[i].blogs[j].id == blogId) {
+				out = out + i + "." + j + "." + bloglists[i].blogs[j].tags.length;
+				bloglists[i].blogs[j].tags.push(tag);
+				return out;
+			}
+		}
+	}
+}
+
+function addTagRemoveListener() {
+	$(".tagRemove").click(function(eventObject) {
+		rawBloglistId = eventObject.currentTarget.id.split(".")[1];
+		rawBlogId = eventObject.currentTarget.id.split(".")[2];
+		rawTagId = eventObject.currentTarget.id.split(".")[3];
+		$.post("/tagmanager", {action: "removeTagFromBlog", tagId: bloglists[rawBloglistId].blogs[rawBlogId].tags[rawTagId].id, tagName: bloglists[rawBloglistId].blogs[rawBlogId].tags[rawTagId].name, blogId: bloglists[rawBloglistId].blogs[rawBlogId].id});
+		$(eventObject.currentTarget.parentElement).css("display", "none");
+		bloglists[rawBloglistId].blogs[rawBlogId].tags.splice(rawTagId, 1);
+
+		blog = bloglists[rawBloglistId].blogs[rawBlogId];
+		$("#editTagsUL").html("");
+		for (var i = 0;i < blog.tags.length;i++) {
+			$("#editTagsUL").append('<li>' + blog.tags[i].name + ' <span id="tagRemove.' + rawBloglistId + '.' + rawBlogId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
+		}
+		addTagRemoveListener();
+		$(".tagRemove").button();		
+	});
+}
+
 function addClickListeners() {
 	$(".blogButtons a").button();
 	$(".tags a").button();
@@ -419,8 +451,21 @@ function addClickListeners() {
 		else {
 			tagId = -1;
 		}
-		$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId});
-		$("#editTagsUL").append('<li>' + tagName + ' </li>');
+		$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId}, function (result) {
+			if (result != "") {
+				console.log("uus tag");
+				tags.push($.parseJSON('{"id":' + result + ',"name":"' + tagName + '"}'));
+				$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToBlog(tags[tags.length - 1], blogId) +'" class="tagRemove">REMOVE</span></li>');
+				$(".tagRemove").button();
+				addTagRemoveListener();
+			}
+			else {
+				$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToBlog(tags[tagRawId], blogId) +'" class="tagRemove">REMOVE</span></li>');
+				$(".tagRemove").button();
+				addTagRemoveListener();
+			}
+		});
+		//$("#editTagsUL").append('<li>' + blog.tags[i].name + ' <span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
 	});
 	
 	$(".removeList").click(function (eventObject) {
@@ -445,15 +490,7 @@ function addClickListeners() {
 		for (var i = 0;i < blog.tags.length;i++) {
 			$("#editTagsUL").append('<li>' + blog.tags[i].name + ' <span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
 		}
-		$(".tagRemove").click(function(eventObject) {
-			rawBloglistId = eventObject.currentTarget.id.split(".")[1];
-			rawBlogId = eventObject.currentTarget.id.split(".")[2];
-			rawTagId = eventObject.currentTarget.id.split(".")[3];
-			$.post("/tagmanager", {action: "removeTagFromBlog", tagId: bloglists[rawBloglistId].blogs[rawBlogId].tags[rawTagId].id, tagName: bloglists[rawBloglistId].blogs[rawBlogId].tags[rawTagId].name, blogId: bloglists[rawBloglistId].blogs[rawBlogId].id});
-			$(eventObject.currentTarget.parentElement).css("display", "none");
-			bloglists[rawBloglistId].blogs[rawBlogId].tags.splice(rawTagId, 1);
-			
-		});
+		addTagRemoveListener();
 		$("#dialogEditTags").dialog("open");
 	});
 	
