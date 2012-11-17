@@ -76,7 +76,7 @@ function init() {
         open: function() {
             $("#tags").keypress(function(e) {
               if (e.keyCode == $.ui.keyCode.ENTER) {
-                $("#addTagButton").trigger("click");
+                //$("#addTagButton").trigger("click");
                 return false;
               }
             });
@@ -301,7 +301,7 @@ function init() {
 		rawTags = [];
 		
 		for (var i = 0;i < tags.length;i++) {
-			rawTags.push(tags[i].name);
+			rawTags.push(tags[i].name.toLowerCase());
 		}
 		$( "#tags" ).autocomplete({
             source: rawTags
@@ -432,6 +432,23 @@ function addTagRemoveListener() {
 	});
 }
 
+function blogHasTag(blogId, tagName) {
+	for (var i = 1;i < bloglists.length; i++) {
+		for (var j = 0;j < bloglists[i].blogs.length; j++) {
+			if(bloglists[i].blogs[j].id == blogId) {
+				for (var k = 1;k < bloglists[i].blogs[j].tags.length; k++) {
+					if(bloglists[i].blogs[j].tags[k].name.toLowerCase() == tagName) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+	}
+	
+	return false;
+}
+
 function addClickListeners() {
 	$(".blogButtons a").button();
 	$(".tags a").button();
@@ -444,12 +461,18 @@ function addClickListeners() {
 		if (tagName == "") {
 			return;
 		}
+		else {
+			tagName = tagName.toLowerCase();
+		}
 		tagRawId = $.inArray(tagName, rawTags);
 		if (tagRawId != -1) {
 			tagId = tags[tagRawId].id;
 		}
 		else {
 			tagId = -1;
+		}
+		if (blogHasTag(blogId, tagName)) {
+			return;
 		}
 		$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId}, function (result) {
 			if (result != "") {
