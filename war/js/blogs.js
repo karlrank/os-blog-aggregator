@@ -8,6 +8,7 @@ var sent = 0;
 var blog;
 var tags;
 var rawTags;
+var noRepeatPress = false;
 
 function init() {
 	
@@ -74,12 +75,16 @@ function init() {
             }
         },
         open: function() {
-            $("#tags").keypress(function(e) {
-              if (e.keyCode == $.ui.keyCode.ENTER) {
-                //$("#addTagButton").trigger("click");
-                return false;
-              }
-            });
+        	if (!noRepeatPress) {
+        		$("#tags").keypress(function(e) {
+                    if (e.keyCode == $.ui.keyCode.ENTER) {
+                  	  $("#addTagButton").trigger("click");
+                      return false;
+                    }
+                  });
+        		noRepeatPress = true;
+        	}
+            
             $("#dialogEditTags").dialog("option", "title", "Edit " + blog.title + "-s tags.");
             $(".tagRemove").button();
           },
@@ -314,6 +319,7 @@ function init() {
 		if (bloglists.length == 1 && !isLoggedIn()) {
 			$("#accordion").html("Log in to manage your bloglists.");
 			$("#addlist").hide();
+			$("#editIntrests").hide();
 		}
 		else if (bloglists.length == 1 && isLoggedIn()) {
 			$("#accordion").html("You currently have no bloglists. Start by creating some.");
@@ -336,10 +342,13 @@ function init() {
 		
 		addClickListeners();
 	});
-	
+	$(".add").button();
 	$("#addlist").click(function () {
 		$( "#dialogAddBloglist" ).dialog( "open" );
-	});	
+	});
+	$("#editIntrests").click(function () {
+		$( "#dialogAddBloglist" ).dialog( "open" );
+	});
 }
 
 window.onload = init;
@@ -453,7 +462,6 @@ function addClickListeners() {
 	$(".blogButtons a").button();
 	$(".tags a").button();
 	$( "#accordion" ).accordion({heightStyle: "content", active: parseInt(sessionStorage.activeList)});
-	$("#addlist").button();
 	$(".bloglistbuttons a").button();
 	
 	$("#addTagButton").click(function(eventObject) {
@@ -474,6 +482,8 @@ function addClickListeners() {
 		if (blogHasTag(blogId, tagName)) {
 			return;
 		}
+		$("#editTagsInfo").html('<img src="img/ajax-loader.gif" alt="loading">');
+		$("#addTagButton").button({disabled : true});
 		$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId}, function (result) {
 			if (result != "") {
 				console.log("uus tag");
@@ -487,6 +497,8 @@ function addClickListeners() {
 				$(".tagRemove").button();
 				addTagRemoveListener();
 			}
+			$("#editTagsInfo").html('');
+			$("#addTagButton").button({disabled : false});
 		});
 		//$("#editTagsUL").append('<li>' + blog.tags[i].name + ' <span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
 	});
