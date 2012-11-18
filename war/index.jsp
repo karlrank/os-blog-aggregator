@@ -47,11 +47,11 @@
 		    User user = userService.getCurrentUser();
 		    if (userService.isUserLoggedIn()) {
 			%>
-	  			<li><a href="<%= userService.createLogoutURL(request.getRequestURI()) %>" title="Sign out"><span>SIGN OUT: <%= userService.getCurrentUser().getEmail() %></span></a></li>
+	  			<li><a href="${logoutURL}" title="Sign out"><span>SIGN OUT: ${userEmail}</span></a></li>
 	  			<%
 				    } else {
 				%>
-				<li><a href="<%= userService.createLoginURL(request.getRequestURI()) %>" title="Sign in" class="current"><span>LOG IN</span></a></li>
+				<li><a href="${loginURL}" title="Sign in" class="current"><span>LOG IN</span></a></li>
 				<%
 				    }
 				%>

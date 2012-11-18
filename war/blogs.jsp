@@ -34,8 +34,7 @@
 			<ul class="blue">
 				<li><a href="/" title="HOME"><span>HOME</span></a></li>
 				<li><a href="/top.htm" title="TOP"><span>TOP</span></a></li>
-				<li><a href="my-blogs" title="MY BLOGS" class="current"><span>MY
-							BLOGS</span></a></li>
+				<li><a href="my-blogs" title="MY BLOGS" class="current"><span>MY BLOGS</span></a></li>
 				<li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
 			</ul>
 		</nav>
@@ -44,15 +43,16 @@
 				UserService userService = UserServiceFactory.getUserService();
 				User user = userService.getCurrentUser();
 				if (userService.isUserLoggedIn()) {
+				
 			%>
 			<li><a
-				href="<%=userService.createLogoutURL(request.getRequestURI())%>"
-				title="Sign out"><span>SIGN OUT: <%=userService.getCurrentUser().getEmail()%></span></a></li>
+				href="${logoutURL}"
+				title="Sign out"><span>SIGN OUT: ${userEmail}</span></a></li>
 			<%
 				} else {
 			%>
 			<li><a
-				href="<%=userService.createLoginURL(request.getRequestURI())%>"
+				href="${loginURL}"
 				title="Sign in" class="current"><span>LOG IN</span></a></li>
 			<%
 				}

@@ -20,8 +20,6 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
-import ee.bookblogaggregator.data.Blog;
-import ee.bookblogaggregator.data.Bloglist;
 import ee.bookblogaggregator.data.Tag;
 
 
