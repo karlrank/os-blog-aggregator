@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.rdbms.AppEngineDriver;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.Gson;
 
 
 public class TagManagerServlet extends HttpServlet {
