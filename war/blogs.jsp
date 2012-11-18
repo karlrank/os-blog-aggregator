@@ -66,8 +66,9 @@
 			<div id="accordion">
 			
 			</div>
-			<br /> <a id="addlist" class="add" href="javascript:void(0)">ADD
-				LIST</a>
+			<br /> 
+			<a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
+			<a id="editIntrests" class="add" href="javascript:void(0)">EDIT INTRESTS</a>
 		</div>
 	</div>
 
@@ -141,7 +142,7 @@
 	</div>
 	
 	<div id="dialogEditTags" title="Edit blogs tags">
-		<p class="validateTips"></p>
+		<p id="editTagsInfo" class="validateTips"></p>
 		<br />
 		<ul id="editTagsUL"></ul>
 		<br /><br />
