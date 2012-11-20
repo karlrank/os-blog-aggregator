@@ -75,10 +75,10 @@ function init() {
             }
         },
         open: function() {            
-            $("#dialogEditTags").dialog("option", "title", "Edit your intrests.");
             $(".tagRemove").button();
           },
         close: function() {
+        	$("#tags").val("");
         	var blogs = document.getElementById("addMultipleBlogsUL");
         	blogs.innerHTML = "";
         }
@@ -349,10 +349,11 @@ function init() {
 	$("#editIntrests").click(function (eventObject) {
 		$("#editTagsUL").html("");
 		for (var i = 0;i < userTags.length;i++) {
-			$("#editTagsUL").append('<li>' + userTags[i].name + ' <span id="tagRemove.' + i + '" class="tagRemove">REMOVE</span></li>');
+			$("#editTagsUL").append('<li>' + decodeURIComponent(userTags[i].name) + ' <span id="tagRemove.' + i + '" class="tagRemove">REMOVE</span></li>');
 		}
 		editingUserTags = true;
 		addTagRemoveListener();
+		$("#dialogEditTags").dialog("option", "title", "Editing your intrests.");
 		$("#dialogEditTags").dialog("open");
 	});
 }
@@ -434,6 +435,7 @@ function addTagToUser(tag) {
 }
 
 function addTagRemoveListener() {
+	$(".tagRemove").unbind("click");
 	if(editingUserTags) {
 		$(".tagRemove").click(function(eventObject) {
 			var tagId = userTags[eventObject.currentTarget.id.split(".")[1]].id;
@@ -490,7 +492,7 @@ function blogHasTag(blogId, tagName) {
 
 function userHasTag(tagName) {
 	for (var i = 0;i < userTags.length; i++) {
-		if(userTags[i].name == tagName) {
+		if(userTags[i].name.toLowerCase() == tagName) {
 			return true;
 		}
 	}
@@ -509,7 +511,8 @@ function addClickListeners() {
 			return;
 		}
 		else {
-			tagName = tagName.toLowerCase();
+			tagName = encodeURIComponent(tagName.toLowerCase());
+			console.log(tagName);
 		}
 		tagRawId = $.inArray(tagName, rawTags);
 		if (tagRawId != -1) {
@@ -529,14 +532,13 @@ function addClickListeners() {
 		if (editingUserTags) {
 			$.post("/tagmanager", {action: "addTagToUser", tagId: tagId, tagName: tagName}, function (result) {
 				if (result != "") {
-					console.log("uus tag");
 					tags.push($.parseJSON('{"id":' + result + ',"name":"' + tagName + '"}'));
-					$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToUser(tags[tags.length - 1]) +'" class="tagRemove">REMOVE</span></li>');
+					$("#editTagsUL").append('<li>' + decodeURIComponent(tagName) + ' <span id="tagRemove.' + addTagToUser(tags[tags.length - 1]) +'" class="tagRemove">REMOVE</span></li>');
 					$(".tagRemove").button();
 					addTagRemoveListener();
 				}
 				else {
-					$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToUser(tags[tagRawId]) +'" class="tagRemove">REMOVE</span></li>');
+					$("#editTagsUL").append('<li>' + decodeURIComponent(tagName) + ' <span id="tagRemove.' + addTagToUser(tags[tagRawId]) +'" class="tagRemove">REMOVE</span></li>');
 					$(".tagRemove").button();
 					addTagRemoveListener();
 				}
@@ -548,12 +550,12 @@ function addClickListeners() {
 			$.post("/tagmanager", {action: "addTagToBlog", tagId: tagId, tagName: tagName, blogId: blogId}, function (result) {
 				if (result != "") {
 					tags.push($.parseJSON('{"id":' + result + ',"name":"' + tagName + '"}'));
-					$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToBlog(tags[tags.length - 1], blogId) +'" class="tagRemove">REMOVE</span></li>');
+					$("#editTagsUL").append('<li>' + decodeURIComponent(tagName) + ' <span id="tagRemove.' + addTagToBlog(tags[tags.length - 1], blogId) +'" class="tagRemove">REMOVE</span></li>');
 					$(".tagRemove").button();
 					addTagRemoveListener();
 				}
 				else {
-					$("#editTagsUL").append('<li>' + tagName + ' <span id="tagRemove.' + addTagToBlog(tags[tagRawId], blogId) +'" class="tagRemove">REMOVE</span></li>');
+					$("#editTagsUL").append('<li>' + decodeURIComponent(tagName) + ' <span id="tagRemove.' + addTagToBlog(tags[tagRawId], blogId) +'" class="tagRemove">REMOVE</span></li>');
 					$(".tagRemove").button();
 					addTagRemoveListener();
 				}
@@ -585,9 +587,10 @@ function addClickListeners() {
 		blog = bloglists[bloglistId].blogs[id.split(".")[3]];
 		$("#editTagsUL").html("");
 		for (var i = 0;i < blog.tags.length;i++) {
-			$("#editTagsUL").append('<li>' + blog.tags[i].name + ' <span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
+			$("#editTagsUL").append('<li>' + decodeURIComponent(blog.tags[i].name) + ' <span id="tagRemove.' + bloglistId + '.' + blogNativeId + '.' + i +'" class="tagRemove">REMOVE</span></li>');
 		}
 		addTagRemoveListener();
+		$("#dialogEditTags").dialog("option", "title", "Editing " + blog.title + "-s tags.");
 		$("#dialogEditTags").dialog("open");
 	});
 	

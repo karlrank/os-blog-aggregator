@@ -21,7 +21,7 @@ email VARCHAR(64));
 
 CREATE TABLE tag(
 id int not null AUTO_INCREMENT primary key,
-name VARCHAR(32) not null,
+name VARCHAR(100) not null,
 unique (name));
 
 CREATE TABLE blog_bloglist(
