@@ -153,6 +153,19 @@
 		</div>
 	</div>
 	
+	<div id="dialogCopySharelink" title="Copy link for list sharing.">
+		<p class="validateTips">Copy the link and give it to whomever you want to share this list with.</p>
+		<form>
+			<fieldset>
+				<input type="text" name="sharelink" id="sharelink" class="text ui-widget-content ui-corner-all" />
+			</fieldset>
+		</form>
+	</div>
+	
+	<div id="dialogConfirmBloglistAdd" title="Confirm adding of bloglist">
+		<p class="validateTips" id="validateTipsBloglistAdd"></p>
+	</div>
+	
 </body>
 </html>
 

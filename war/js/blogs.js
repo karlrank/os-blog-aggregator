@@ -1,6 +1,7 @@
 
 var bloglists;
 var inputBlogs;
+var bloglistToBeAdded;
 var entries;
 var blogId;
 var listId;
@@ -13,6 +14,31 @@ var noRepeatPress = false;
 var editingUserTags = false;
 
 function init() {
+	
+	$("#dialogCopySharelink").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		width: 500,
+		buttons: {
+            "Done": function() {
+            	$( this ).dialog( "close" );
+            },
+        },
+        open: function() {
+        	$("#sharelink").select();
+        },
+        close: function() {
+        	$("#sharelink").val("");
+        }
+	});
+	
+	$("#dialogCopySharelink").keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+        	$("#dialogCopySharelink").parent().find("button:eq(0)").trigger("click");
+          return false;
+        }
+      });
 	
 	$("#dialogConfirmBlogDelete").dialog({
 		autoOpen: false,
@@ -32,9 +58,52 @@ function init() {
         close: function() {
         }
 	});
+	
 	$("#dialogConfirmBlogDelete").keypress(function(e) {
         if (e.keyCode == $.ui.keyCode.ENTER) {
         	$("#dialogConfirmBlogDelete").parent().find("button:eq(0)").trigger("click");
+          return false;
+        }
+      });
+	
+	$("#dialogConfirmBloglistAdd").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "Add shared bloglist": function() {
+            	blogs = bloglistToBeAdded;
+            	$("#validateTipsBloglistAdd").html('<img src="img/ajax-loader.gif" alt="loading">');
+            	$.post("/listmanager", { action: "addList", listName: blogs.name }, function (addListResult) {
+            		console.log(addListResult);
+                	sessionStorage.activeList = bloglists.length - 2;
+                	sent = 0;
+                	for ( var i = 0; i < blogs.list.length; i++) {
+                		sent++;
+						$.post("/listmanager", { action: "addBlog", listId: addListResult, blogId: blogs.list[i]} , function() {
+							sent--;
+							if (sent == 0) {
+								location = "/my-blogs";
+							}
+    	    			});
+					}
+                });
+            	
+            	
+            	
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() { },
+        close: function() {
+        }
+	});
+	
+	$("#dialogConfirmBloglistAdd").keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+        	$("#dialogConfirmBloglistAdd").parent().find("button:eq(0)").trigger("click");
           return false;
         }
       });
@@ -98,7 +167,7 @@ function init() {
             "Add blogs": function() {
             	var blogs = document.getElementById("addMultipleBlogsUL");
             	
-            	
+            	sent = 0;
             	for ( var i = 0; i < blogs.children.length; i++) {
 					if (blogs.children[i].children[0].checked) {
 						sent++;
@@ -144,7 +213,7 @@ function init() {
 
                 if ( bValid ) {
                     $.post("/listmanager", { action: "addList", listName: document.getElementById("name").value }, function () {
-                    	sessionStorage.activeList = bloglists.length - 1;
+                    	sessionStorage.activeList = bloglists.length - 2;
                     	location.reload();
                     });
                 }
@@ -295,6 +364,7 @@ function init() {
         }
       });
 	
+	manageSharing();
 	
 	$.getJSON("/tags", {action:"getAllTags"}, function(result) {
 		tags = result;
@@ -315,16 +385,16 @@ function init() {
 	$.get("/bloglists", function(result) {
 		bloglists = $.parseJSON(result);
 		
-		if (bloglists.length == 1 && !isLoggedIn()) {
+		if (bloglists.length == 2 && !isLoggedIn()) {
 			$("#accordion").html("Log in to manage your bloglists.");
 			$("#addlist").hide();
 			$("#editIntrests").hide();
 		}
-		else if (bloglists.length == 1 && isLoggedIn()) {
+		else if (bloglists.length == 2 && isLoggedIn()) {
 			$("#accordion").html("You currently have no bloglists. Start by creating some.");
 		}
 		else {
-			for (var i = 1; i < bloglists.length; i++) {
+			for (var i = 2; i < bloglists.length; i++) {
 				$("#accordion").append(createListRow(i, bloglists[i].name));
 				var div = document.createElement("div");
 				var ul = document.createElement("ul");
@@ -392,7 +462,7 @@ function checkRegexp( o, regexp, n ) {
 function createListRow(listNr, listName) {
 	var h3 = document.createElement("h3");
 		h3.id = listNr;
-	h3.innerHTML = listName + '<span class="bloglistbuttons"><a class="addBlog" href="javascript:void(0)">ADD BLOG</a><a class="removeList" href="javascript:void(0)">REMOVE LIST</a></span>';
+	h3.innerHTML = listName + '<span class="bloglistbuttons"><a class="shareList" href="javascript:void(0)">SHARE LIST</a><a class="addBlog" href="javascript:void(0)">ADD BLOG</a><a class="removeList" href="javascript:void(0)">REMOVE LIST</a></span>';
 	return h3;
 }
 
@@ -599,6 +669,29 @@ function addClickListeners() {
 		listId = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)].id;
 	});
 	
+	$(".shareList").click(function (eventObject) {
+//		$("#dialogAddBlog").dialog("open");
+		list = bloglists[parseInt(eventObject.currentTarget.parentElement.parentElement.id)];
+		
+		if (list.blogs.length > 0) {
+			var blogIds = new Array();
+			for (var i = 0;i < list.blogs.length;i++) {
+				blogIds.push(list.blogs[i].id);
+			}
+			var info = {};
+			info.name = list.name;
+			info.list = blogIds;
+			var siteURL = "http://osblogaggregator.appspot.com/my-blogs?ids=";
+			var shareURL = siteURL + encodeURIComponent(JSON.stringify(info));
+			$("#sharelink").val(shareURL);
+			$("#dialogCopySharelink").dialog("open");
+		}
+		else {
+			console.log("Empty List");//ERRUR
+		}
+		
+	});
+	
 	$("#selectAll").click(function(event) {
 		var checked = false;
 		if(event.currentTarget.checked) {
@@ -661,8 +754,24 @@ function createBloglistGreader(jsonList) {
 	return bloglist;
 }
 
+function manageSharing() {
+	var prmstr = window.location.search.substr(1);
+	var prmarr = prmstr.split ("&");
+	var params = {};
 
-
-
-
+	for ( var i = 0; i < prmarr.length; i++) {
+	    var tmparr = prmarr[i].split("=");
+	    params[tmparr[0]] = tmparr[1];
+	}
+	
+	if ((params.ids != undefined) && isLoggedIn()) {
+		var blogs = $.parseJSON(decodeURIComponent(params.ids));
+		bloglistToBeAdded = blogs;
+		$("#dialogConfirmBloglistAdd").dialog("open");
+		$("#validateTipsBloglistAdd").html("Are you sure you want to add the shared bloglist: " + blogs.name + " ?");	
+	}
+	else if ((params.ids != undefined) && !isLoggedIn()){
+		$("#accordion").html("Log in to accept the shared bloglist.");
+	}
+}
 

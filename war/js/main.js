@@ -89,6 +89,7 @@ function generatePostHtml(imgSrc, postTitle, postUrl, sourceUrl, sourceName, pos
 	var h2 = document.createElement("h2");
 	var a1 = document.createElement("a");
 	a1.href = postUrl + "?utm_source=osblogaggregator";
+	a1.target = "_blank";
 	a1.innerHTML = postTitle;
 	var span = document.createElement("span");
 	span.className = "blogpost_source";
