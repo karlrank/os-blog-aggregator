@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -38,10 +39,15 @@ public class ListManagerServlet extends HttpServlet {
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 				
 				String statement = "insert into bloglist(listName,email) values ( ?, ? );";
-				PreparedStatement stmt = c.prepareStatement(statement);
+				PreparedStatement stmt = c.prepareStatement(statement, Statement.RETURN_GENERATED_KEYS);
 				stmt.setString(1, listName);
 				stmt.setString(2, userService.getCurrentUser().getEmail());
-				stmt.execute();
+				stmt.executeUpdate();
+				
+				ResultSet rs = stmt.getGeneratedKeys();
+				if (rs.next()){
+				    response.getWriter().print("" + rs.getInt(1));
+				}
 				c.close();
 				
 			} catch (SQLException e) {
@@ -88,11 +94,22 @@ public class ListManagerServlet extends HttpServlet {
 			String blogUrl = request.getParameter("blogUrl");
 			long listId = Long.parseLong(request.getParameter("listId"));
 			String blogTitle = request.getParameter("blogTitle");
+			String blogId = request.getParameter("blogId");
 			
 			Connection c = null;
 			try {
 				DriverManager.registerDriver(new AppEngineDriver());
 				c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+				if (blogId != null) {
+					
+					String statement = "INSERT into blog_bloglist values ( ? ,? )";
+					PreparedStatement stmt = c.prepareStatement(statement);
+					stmt.setString(1, blogId);
+					stmt.setLong(2, listId);
+					stmt.execute();
+					c.close();
+					return;
+				}
 				
 				String statement = "SELECT id FROM blog WHERE xmlUrl = ? ;";
 				PreparedStatement stmt = c.prepareStatement(statement);
@@ -100,10 +117,10 @@ public class ListManagerServlet extends HttpServlet {
 				ResultSet rs = stmt.executeQuery();
 
 				if(rs.next()) {
-					long blogId = rs.getLong(1);
+					long blogIdLong = rs.getLong(1);
 					statement = "INSERT into blog_bloglist values ( ? ,? )";
 					stmt = c.prepareStatement(statement);
-					stmt.setLong(1, blogId);
+					stmt.setLong(1, blogIdLong);
 					stmt.setLong(2, listId);
 					stmt.execute();
 				}

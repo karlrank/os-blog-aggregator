@@ -82,6 +82,10 @@ public class BloglistsServlet extends HttpServlet {
 				
 					List<Bloglist> output = new ArrayList<Bloglist>();
 					output.add(getPopular());
+					Bloglist suggested = getPopular();
+					suggested.setName("Suggested");
+					suggested.setId(-2);
+					output.add(suggested);
 					while (rs.next()) {
 						Bloglist bl = new Bloglist(rs.getLong("id"), rs.getString("listName"));
 						String statement2 = "select id, title, xmlUrl from blog where id IN (select BLOG_ID from blog_bloglist where BLOGLIST_ID IN (select id from bloglist where email = ? and id = ?));";
@@ -101,8 +105,12 @@ public class BloglistsServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		} else {
-			Bloglist[] output = new Bloglist[1];
+			Bloglist[] output = new Bloglist[2];
 			output[0] = getPopular();
+			Bloglist suggested = getPopular();
+			suggested.setName("Suggested");
+			suggested.setId(-2);
+			output[1] = suggested;
 			response.getWriter().println(gson.toJson(output));
 		}
 
