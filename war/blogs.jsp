@@ -166,6 +166,10 @@
 		<p class="validateTips" id="validateTipsBloglistAdd"></p>
 	</div>
 	
+	<div id="dialogError" title="Error">
+		<p class="validateTips" id="validateTipsError"></p>
+	</div>
+	
 </body>
 </html>
 

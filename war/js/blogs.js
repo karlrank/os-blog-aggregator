@@ -66,6 +66,27 @@ function init() {
         }
       });
 	
+	$("#dialogError").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+            "OK": function() {
+            	$( this ).dialog( "close" );
+            }
+        },
+        open: function() { },
+        close: function() {
+        }
+	});
+	
+	$("#dialogError").keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+        	$("#dialogError").parent().find("button:eq(0)").trigger("click");
+          return false;
+        }
+      });
+	
 	$("#dialogConfirmBloglistAdd").dialog({
 		autoOpen: false,
 		modal: true,
@@ -75,7 +96,6 @@ function init() {
             	blogs = bloglistToBeAdded;
             	$("#validateTipsBloglistAdd").html('<img src="img/ajax-loader.gif" alt="loading">');
             	$.post("/listmanager", { action: "addList", listName: blogs.name }, function (addListResult) {
-            		console.log(addListResult);
                 	sessionStorage.activeList = bloglists.length - 2;
                 	sent = 0;
                 	for ( var i = 0; i < blogs.list.length; i++) {
@@ -268,7 +288,6 @@ function init() {
                 		var feed = new google.feeds.Feed(blogUrl);
                 	    feed.setNumEntries(1);
                 	    feed.load(function(result) {
-                	    	console.log(result);
                 	    	if (!result.error) {
                 	    			var blogTitle = result.feed.entries[0].author;
                 	    			$.post("/listmanager", { action: "addBlog", listId: listId, blogTitle: blogTitle, blogUrl: blogUrl} , function() {
@@ -582,7 +601,6 @@ function addClickListeners() {
 		}
 		else {
 			tagName = encodeURIComponent(tagName.toLowerCase());
-			console.log(tagName);
 		}
 		tagRawId = $.inArray(tagName, rawTags);
 		if (tagRawId != -1) {
@@ -687,7 +705,12 @@ function addClickListeners() {
 			$("#dialogCopySharelink").dialog("open");
 		}
 		else {
-			console.log("Empty List");//ERRUR
+			$("#validateTipsError").html("Cannot share empty bloglist.");
+			$("#validateTipsError").addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				$("#validateTipsError").removeClass( "ui-state-highlight", 1500 );
+		    }, 500 );
+			$("#dialogError").dialog("open");
 		}
 		
 	});
@@ -765,10 +788,27 @@ function manageSharing() {
 	}
 	
 	if ((params.ids != undefined) && isLoggedIn()) {
-		var blogs = $.parseJSON(decodeURIComponent(params.ids));
-		bloglistToBeAdded = blogs;
-		$("#dialogConfirmBloglistAdd").dialog("open");
-		$("#validateTipsBloglistAdd").html("Are you sure you want to add the shared bloglist: " + blogs.name + " ?");	
+		var blogs;
+		try {
+			blogs = $.parseJSON(decodeURIComponent(params.ids)); }
+		catch(err) {
+			blogs = undefined;}
+		
+		if (blogs !== undefined) {
+			bloglistToBeAdded = blogs;
+			$("#dialogConfirmBloglistAdd").dialog("open");
+			$("#validateTipsBloglistAdd").html("Are you sure you want to add the shared bloglist: " + blogs.name + " ?");
+		}
+		else {
+			$(".ui-dialog-buttonpane button:contains('Add shared bloglist')").button("disable");
+			$("#dialogConfirmBloglistAdd").dialog("open");
+			$("#validateTipsBloglistAdd").html("URL malformed please check the sharing link.");
+			$("#validateTipsBloglistAdd").addClass( "ui-state-highlight" );
+			setTimeout(function() {
+				$("#validateTipsBloglistAdd").removeClass( "ui-state-highlight", 1500 );
+		    }, 500 );
+		}
+			
 	}
 	else if ((params.ids != undefined) && !isLoggedIn()){
 		$("#accordion").html("Log in to accept the shared bloglist.");

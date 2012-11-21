@@ -35,15 +35,22 @@ public class BloglistsServlet extends HttpServlet {
         gson = new Gson();
     }
     
-    private Bloglist getPopular() {
+    private Bloglist getPopular(String email) {
     	Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
 			c = DriverManager
 					.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 
-			String statement = "select blog_id,title,xmlUrl, count(*) as popularity from blog_bloglist, blog where blog_id = id group by blog_id order by popularity desc LIMIT 0, 5;";
+			String statement = 	"select blog_id,title,xmlUrl, count(*) as popularity " +
+								"from blog_bloglist, blog where blog_id = id " +
+								"and blog_id not in (select BLOG_ID from blog_bloglist where " +
+								"BLOGLIST_ID IN (select id from bloglist where " +
+								"email= ? ))" +
+								"group by blog_id " +
+								"order by popularity desc LIMIT 0, 5;";
 			PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1, email);
 			ResultSet rs = stmt.executeQuery();
 
 				Bloglist bl = new Bloglist(-1, "Popular");
@@ -63,7 +70,14 @@ public class BloglistsServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
+		
 		UserService userService = UserServiceFactory.getUserService();
+		
+		String email = "";
+		if (userService.isUserLoggedIn()) {
+			email = userService.getCurrentUser().getEmail();
+		}
+		
 		
 		if (userService.isUserLoggedIn()) {
 
@@ -81,8 +95,8 @@ public class BloglistsServlet extends HttpServlet {
 				ResultSet rs = stmt.executeQuery();
 				
 					List<Bloglist> output = new ArrayList<Bloglist>();
-					output.add(getPopular());
-					Bloglist suggested = getPopular();
+					output.add(getPopular(email));
+					Bloglist suggested = getPopular(email);
 					suggested.setName("Suggested");
 					suggested.setId(-2);
 					output.add(suggested);
@@ -106,8 +120,8 @@ public class BloglistsServlet extends HttpServlet {
 			}
 		} else {
 			Bloglist[] output = new Bloglist[2];
-			output[0] = getPopular();
-			Bloglist suggested = getPopular();
+			output[0] = getPopular(email);
+			Bloglist suggested = getPopular(email);
 			suggested.setName("Suggested");
 			suggested.setId(-2);
 			output[1] = suggested;
