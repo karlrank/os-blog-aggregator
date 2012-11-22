@@ -8,10 +8,19 @@ public class Blog {
 	String title;
 	String xmlUrl;
 	String htmlUrl;
+	float rating;
 	List<Tag> tags;
+	int popularity;
 	
 	public Blog() {
 		super();
+		tags = new ArrayList<Tag> ();
+	}
+	
+	public Blog(long id, int popularity) {
+		super();
+		this.id = id;
+		this.popularity = popularity;
 		tags = new ArrayList<Tag> ();
 	}
 
@@ -66,4 +75,40 @@ public class Blog {
 	public void addTag(Tag tag) {
 		tags.add(tag);
 	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public float getRating() {
+		return rating;
+	}
+
+	public void setRating(float rating) {
+		this.rating = rating;
+	}
+
+	public int getPopularity() {
+		return popularity;
+	}
+
+	public void setPopularity(int popularity) {
+		this.popularity = popularity;
+	}
+
+	@Override
+	public String toString() {
+		return "Blog [id=" + id + ", title=" + title + ", rating=" + rating
+				+ "]";
+	}
+
+	
+
+	
+	
+	
 }

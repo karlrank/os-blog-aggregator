@@ -3,10 +3,16 @@ package ee.bookblogaggregator.data;
 public class Tag {
 	Long id;
 	String name;
+	Float rating;
 	
 	
 	public Tag() {
 		super();
+	}
+	
+	public Tag(long id) {
+		super();
+		this.id = id;
 	}
 	
 	public Tag(String name) {
@@ -18,6 +24,18 @@ public class Tag {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+	
+	public Tag(Long id, String name, Float rating) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.rating = rating;
+	}
+	
+	@Override
+	public String toString() {
+		return "Tag [id=" + id + ", name=" + name + ", rating=" + rating + "]";
 	}
 
 	public Long getId() {
@@ -34,6 +52,18 @@ public class Tag {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Float getRating() {
+		return rating;
+	}
+
+	public void setRating(Float rating) {
+		this.rating = rating;
+	}
+	
+	public void addRating(Float rating) {
+		this.rating += rating;
 	}
 	
 }
