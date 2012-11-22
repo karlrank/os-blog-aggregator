@@ -8,10 +8,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+
+import org.mortbay.log.Log;
 
 import com.google.appengine.api.rdbms.AppEngineDriver;
 
 import ee.bookblogaggregator.data.*;
+import ee.bookblogaggregator.servlet.TagManagerServlet;
 
 public class Functions {
 	
@@ -139,6 +143,53 @@ public class Functions {
 		}
 		
 		return new ArrayList<Blog>();
+	}
+	
+	public static void insertBlogRatings(List<Blog> blogs, String email) {
+		removeBlogRatings(email);
+		final Logger log = Logger.getLogger(TagManagerServlet.class.getName());
+		
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+
+			String statement = 	"insert into user_blog (USER_EMAIL, BLOG_ID, RATING) values ( ?, ?, ? );";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			
+			for (Blog blog: blogs) {
+				stmt.setString(1, email);
+				stmt.setLong(2, blog.getId());
+				stmt.setFloat(3, (Float.isNaN(blog.getRating())) ? 0 : blog.getRating());
+				stmt.addBatch();
+				log.info(stmt + "");
+			}
+			stmt.executeBatch();
+			c.close();
+
+		} catch (SQLException e) {
+			log.warning(e.toString());
+			e.printStackTrace();
+		}
+	}
+	
+	private static void removeBlogRatings(String email) {
+		Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+
+			String statement = 	"delete from user_blog where USER_EMAIL = ?";
+			PreparedStatement stmt = c.prepareStatement(statement);
+			stmt.setString(1, email);
+			
+			stmt.execute();
+			stmt.close();				
+			c.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
 

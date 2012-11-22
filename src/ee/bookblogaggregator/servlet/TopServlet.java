@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -17,33 +20,43 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-import ee.bookblogaggregator.suggestion.Main;
+import ee.bookblogaggregator.data.Blog;
 
-public class UserManagerServlet extends HttpServlet {
+public class TopServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(ListManagerServlet.class.getName());
 
 	
-    public UserManagerServlet() {
+    public TopServlet() {
         super();
     }
     
-    private void addUserToDatabase(String email) {
+    private List<Blog> getRecommendedBlogs(String email) {
     	Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
 			c = DriverManager.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
 			
-			String statement = "insert ignore into user (email, selectedList) values ( ?, ? );";
+			String statement = 	"select id, title, xmlUrl, rating from user_blog, blog "+
+								"where blog.id = user_blog.BLOG_ID and USER_EMAIL = ? and RATING > 0 "+
+								"ORDER BY RATING DESC;";
+			
 			PreparedStatement stmt = c.prepareStatement(statement);
 			stmt.setString(1, email);
-			stmt.setInt(2, 0);
-			stmt.executeUpdate();
+			
+			ResultSet rs = stmt.executeQuery();
+			List<Blog> recommended = new ArrayList<Blog>();
+			while (rs.next()) {
+				recommended.add(new Blog(rs.getLong(1), rs.getString(2), rs.getString(3), rs.getFloat(4)));
+			}
+			
 			c.close();
+			return recommended;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return new ArrayList<Blog>();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -53,29 +66,14 @@ public class UserManagerServlet extends HttpServlet {
 		User user = userService.getCurrentUser();
 		
 		if (userService.isUserLoggedIn()) {
-			addUserToDatabase(user.getEmail());
-			request.setAttribute("logoutURL", userService.createLogoutURL(request.getRequestURI()));
-			request.setAttribute("userEmail", user.getEmail());
-			Main.updateSuggestions(user.getEmail());
+			List<Blog> recommended = getRecommendedBlogs(user.getEmail());
+			request.setAttribute("suggested", recommended);
+			request.getRequestDispatcher("top.jsp").forward(request, response);
 		}
 		else {
-			request.setAttribute("loginURL", userService.createLoginURL(request.getRequestURI()));
+			response.getWriter().print("log in mayhaps??");
 		}
 		
-		if (request.getRequestURI().equals("/")) {
-			request.getRequestDispatcher("index.jsp").forward(request, response);
-		}
-		else if (request.getRequestURI().equals("/my-blogs")) {
-			request.getRequestDispatcher("blogs.jsp").forward(request, response);
-		}
-		else if (request.getRequestURI().equals("/top")) {
-			log.info("mina olin siin");
-			request.getRequestDispatcher("/topservlet").forward(request, response);
-		}
-		else if (request.getRequestURI().equals("/about")) {
-			log.info("mina olin siin");
-			request.getRequestDispatcher("about.jsp").forward(request, response);
-		}
 		
 	}
 }

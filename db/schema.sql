@@ -5,7 +5,7 @@ USE blogaggregator;
 set sql_safe_updates=0;
 
 CREATE TABLE user( 
-email VARCHAR(64) primary key,
+email VARCHAR(128) primary key,
 selectedList INT);
 
 CREATE TABLE blog(
@@ -30,11 +30,11 @@ BLOGLIST_ID INT,
 Primary key (BLOG_ID,BLOGLIST_ID)
 );
 
-CREATE TABLE user_bloglist(
-USER_EMAIL INT,
-BLOGLIST_ID INT,
+CREATE TABLE user_blog(
+USER_EMAIL varchar(128),
+BLOG_ID INT,
 RATING FLOAT,
-Primary key (USER_EMAIL,BLOGLIST_ID)
+Primary key (USER_EMAIL,BLOG_ID)
 );
 
 CREATE TABLE blog_tag(
