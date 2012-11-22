@@ -32,6 +32,15 @@ public class Blog {
 		tags = new ArrayList<Tag> ();
 	}
 	
+	public Blog(long id, String title, String xmlUrl, float rating) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.xmlUrl = xmlUrl;
+		this.rating = rating;
+		tags = new ArrayList<Tag> ();
+	}
+	
 	public Blog(long id, String title, String xmlUrl, List<Tag> tags) {
 		super();
 		this.id = id;

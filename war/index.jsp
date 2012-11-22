@@ -36,9 +36,9 @@
 	  		
 	  		<ul class="blue">
 				<li><a href="/" title="HOME" class="current"><span>HOME</span></a></li>
-			    <li><a href="/top.htm" title="TOP"><span>TOP</span></a></li>
+			    <li><a href="/top" title="TOP"><span>TOP</span></a></li>
 			    <li><a href="my-blogs" title="MY BLOGS"><span>MY BLOGS</span></a></li>
-			    <li><a href="#" title="ABOUT"><span>ABOUT</span></a></li>
+			    <li><a href="/about" title="ABOUT"><span>ABOUT</span></a></li>
 			</ul>
 	  		</nav>
 	  		<ul class="login blue">

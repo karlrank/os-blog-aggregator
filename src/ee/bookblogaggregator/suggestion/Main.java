@@ -26,8 +26,12 @@ public class Main {
 					}
 				}
 			}
-			blog.setRating((blog.getRating() / blog.getTags().size()) * blog.getPopularity());			
+			if (blog.getTags().size() != 0) {
+				blog.setRating((blog.getRating() / blog.getTags().size()) * blog.getPopularity());	
+			}	
 		}
+		
+		Functions.insertBlogRatings(blogs, email);
 		
 		for (Iterator<Blog> iterator = blogs.iterator(); iterator.hasNext();) {
 			Blog blog = (Blog) iterator.next();
