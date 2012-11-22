@@ -10,6 +10,9 @@ function init() {
 		
 		if (bloglists !== null) {
 			for (var i = 0; i < bloglists.length; i++) {
+				if (bloglists[i].blogs.length == 0) {
+					continue;
+				}
 				if (i == selectedList) {
 					$("#selection").append('<option selected="selected" value="' + i + '">' + bloglists[i].name + '</option>');
 				}

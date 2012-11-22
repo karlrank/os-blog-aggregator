@@ -17,6 +17,8 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+import ee.bookblogaggregator.suggestion.Main;
+
 public class UserManagerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(ListManagerServlet.class.getName());
@@ -54,6 +56,7 @@ public class UserManagerServlet extends HttpServlet {
 			addUserToDatabase(user.getEmail());
 			request.setAttribute("logoutURL", userService.createLogoutURL(request.getRequestURI()));
 			request.setAttribute("userEmail", user.getEmail());
+			Main.updateSuggestions(user.getEmail());
 		}
 		else {
 			request.setAttribute("loginURL", userService.createLoginURL(request.getRequestURI()));
