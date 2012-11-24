@@ -271,7 +271,13 @@ table {
 #editIntrests {
 	float: right;
 	font-size: 1.5em;
-}	
+}
+
+#tabs-1-ol, #tabs-2-ol {
+	position: relative;
+	left: 15px;
+	line-height: 2em;
+}
 
 .blogs { font: 62.5% "Arial", sans-serif; }
 label, input { display:block; }

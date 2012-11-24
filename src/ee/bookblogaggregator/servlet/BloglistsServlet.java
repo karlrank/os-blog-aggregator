@@ -35,7 +35,7 @@ public class BloglistsServlet extends HttpServlet {
         gson = new Gson();
     }
     
-    private Bloglist getPopular(String email) {
+    public static Bloglist getPopular(String email) {
     	Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
@@ -51,6 +51,40 @@ public class BloglistsServlet extends HttpServlet {
 								"order by popularity desc LIMIT 0, 5;";
 			PreparedStatement stmt = c.prepareStatement(statement);
 				stmt.setString(1, email);
+			ResultSet rs = stmt.executeQuery();
+
+				Bloglist bl = new Bloglist(-1, "Popular");
+				while (rs.next()) {
+					bl.addBlog(new Blog(rs.getLong(1), rs.getString(2), rs.getString(3), TagsServlet.getBlogsTags(rs.getString(1))));
+				}
+				c.close();
+				return(bl);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return (new Bloglist());
+    }
+    
+    public static Bloglist getPopular(String email, int begin, int end) {
+    	Connection c = null;
+		try {
+			DriverManager.registerDriver(new AppEngineDriver());
+			c = DriverManager
+					.getConnection("jdbc:google:rdbms://os-blog-aggregator:osblogaggregator2/blogaggregator");
+
+			String statement = 	"select blog_id,title,xmlUrl, count(*) as popularity " +
+								"from blog_bloglist, blog where blog_id = id " +
+								"and blog_id not in (select BLOG_ID from blog_bloglist where " +
+								"BLOGLIST_ID IN (select id from bloglist where " +
+								"email= ? ))" +
+								"group by blog_id " +
+								"order by popularity desc LIMIT ? , ? ;";
+			PreparedStatement stmt = c.prepareStatement(statement);
+				stmt.setString(1, email);
+				stmt.setInt(2, begin);
+				stmt.setInt(3, end);
 			ResultSet rs = stmt.executeQuery();
 
 				Bloglist bl = new Bloglist(-1, "Popular");

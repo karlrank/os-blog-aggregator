@@ -69,11 +69,9 @@ public class UserManagerServlet extends HttpServlet {
 			request.getRequestDispatcher("blogs.jsp").forward(request, response);
 		}
 		else if (request.getRequestURI().equals("/top")) {
-			log.info("mina olin siin");
 			request.getRequestDispatcher("/topservlet").forward(request, response);
 		}
 		else if (request.getRequestURI().equals("/about")) {
-			log.info("mina olin siin");
 			request.getRequestDispatcher("about.jsp").forward(request, response);
 		}
 		

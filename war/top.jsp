@@ -14,9 +14,34 @@
 <link rel="stylesheet" href="style/style.css">
 <link rel="stylesheet" href="style/menu.css">
 <link rel="stylesheet" 	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-<script src="js/jquery-ui-1.9.1.custom.js"></script>
-
+<script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="js/lib/jquery-ui-1.9.1.custom.js"></script>
+<script type="text/javascript" src="js/top.js"></script>
+<script type="text/javascript">
+    	google.load("feeds", "1");
+    	var suggestions = new Array();
+    	var blog;
+    	<c:forEach var="suggestedBlog" items="${suggested}">
+    		blog = new Object();
+    		blog.id = "${suggestedBlog.id}";
+    		blog.title = "${suggestedBlog.title}";
+    		blog.xmlUrl = "${suggestedBlog.xmlUrl}";
+    		blog.rating = "${suggestedBlog.rating}";
+	    	suggestions.push(blog);
+    	</c:forEach>
+    	
+    	var popular = new Array();
+    	<c:forEach var="popularBlog" items="${popular}">
+			blog = new Object();
+			blog.id = "${popularBlog.id}";
+			blog.title = "${popularBlog.title}";
+			blog.xmlUrl = "${popularBlog.xmlUrl}";
+	    	popular.push(blog);
+		</c:forEach>
+    	
+</script>
+    
 <title>Book Blog Aggreator</title>
 </head>
 
@@ -57,10 +82,19 @@
 
 	<div id="main">
 		<div id="blogsContainer">
-			TOP ASI
-			<c:forEach var="num" items="${suggested}">
-			    <p>${num.id} ${num.title} ${num.rating}</p>
-			</c:forEach>
+			<div id="tabs">
+				<ul>
+			        <li><a href="#tabs-1">Popular blogs</a></li>
+			        <li><a href="#tabs-2">Blogs suggested to you</a></li>
+			    </ul>
+			    <div id="tabs-1">
+			    	<h1>TOP BLOGS</h1>
+			    	<ol id = tabs-1-ol></ol>
+			    </div>
+			    <div id="tabs-2">
+			    	<ol id = tabs-2-ol></ol>
+			    </div>
+		    </div>
 		</div>
 	</div>
 	
