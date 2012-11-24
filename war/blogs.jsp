@@ -14,9 +14,9 @@
 <link rel="stylesheet" href="style/menu.css">
 <!--<link href="style/ui-lightness/jquery-ui-1.9.1.custom.css" rel="stylesheet">-->
 <link rel="stylesheet" 	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-<script src="js/jquery-ui-1.9.1.custom.js"></script>
-<script src="js/jquery.xml2json.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
+<script src="js/lib/jquery-ui-1.9.1.custom.js"></script>
+<script src="js/lib/jquery.xml2json.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="js/blogs.js"></script>
 <script type="text/javascript">

@@ -810,8 +810,14 @@ function manageSharing() {
 		}
 			
 	}
+	else if ((params.action != undefined) && params.action == "addBlog" && isLoggedIn()) {
+		//ava dialoog, küsi bloglisti nime kuhu addida. Addi!!
+	}
 	else if ((params.ids != undefined) && !isLoggedIn()){
 		$("#accordion").html("Log in to accept the shared bloglist.");
+	}
+	else if ((params.action != undefined) && params.action == "addBlog" && !isLoggedIn()){
+		$("#accordion").html("Log in to add the blog.");
 	}
 }
 

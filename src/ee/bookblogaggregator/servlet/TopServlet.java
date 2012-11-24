@@ -67,11 +67,16 @@ public class TopServlet extends HttpServlet {
 		
 		if (userService.isUserLoggedIn()) {
 			List<Blog> recommended = getRecommendedBlogs(user.getEmail());
+			List<Blog> popular = BloglistsServlet.getPopular(user.getEmail(), 0, 50).getBlogs();
 			request.setAttribute("suggested", recommended);
+			request.setAttribute("popular", popular);
 			request.getRequestDispatcher("top.jsp").forward(request, response);
 		}
 		else {
-			response.getWriter().print("log in mayhaps??");
+			List<Blog> popular = BloglistsServlet.getPopular("", 0, 20).getBlogs();
+			request.setAttribute("suggested", new ArrayList<String>());
+			request.setAttribute("popular", popular);
+			request.getRequestDispatcher("top.jsp").forward(request, response);
 		}
 		
 		

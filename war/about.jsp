@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="style/style.css">
 <link rel="stylesheet" href="style/menu.css">
 <link rel="stylesheet" 	href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
-<script src="js/jquery-ui-1.9.1.custom.js"></script>
+<script type="text/javascript" src="js/lib/jquery-1.8.2.js"></script>
+<script src="js/lib/jquery-ui-1.9.1.custom.js"></script>
 
 <title>Book Blog Aggreator</title>
 </head>
