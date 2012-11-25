@@ -6,18 +6,24 @@ function init() {
 	$( "#tabs" ).tabs();
 	
 	if (isLoggedIn()) {
-		for ( var i = 0; i < suggestions.length; i++) {
-		    var feed = new google.feeds.Feed(suggestions[i].xmlUrl);
-		    feed.setNumEntries(0);
-		    counter ++;
-		    feed.load(function(result) {
-		    	if (!result.error) {
-		    		addLink(suggestions, result.feed.feedUrl, result.feed.link, result.feed.description);
-		    		counter--;
-		    		if (counter == 0) {displayResultsSuggested();}
-		    	}
-		    });
+		if (suggestions.length != 0) {
+			for ( var i = 0; i < suggestions.length; i++) {
+			    var feed = new google.feeds.Feed(suggestions[i].xmlUrl);
+			    feed.setNumEntries(0);
+			    counter ++;
+			    feed.load(function(result) {
+			    	if (!result.error) {
+			    		addLink(suggestions, result.feed.feedUrl, result.feed.link, result.feed.description);
+			    		counter--;
+			    		if (counter == 0) {displayResultsSuggested();}
+			    	}
+			    });
+			}
 		}
+		else {
+			$("#tabs-2").html("No suggestions, add more intrests and blogs you like to get suggestions.");
+		}
+		
 	}
 	else {
 		$("#tabs-2").html("Log in to see suggestions.");

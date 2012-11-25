@@ -40,6 +40,39 @@ function init() {
         }
       });
 	
+	$("#dialogSelectListAddBlog").dialog({
+		autoOpen: false,
+		modal: true,
+		resizable: false,
+		buttons: {
+			"Add blog": function() {
+				listId = $("#listSelection").val();
+				$.post("/listmanager", { action: "addBlog", listId: bloglists[listId].id, blogId: blogId} , function(result) {
+					sessionStorage.activeList = listId - 2;
+					location = "/my-blogs";
+				});
+            },
+            Cancel: function() {
+                $( this ).dialog( "close" );
+            }
+        },
+        open: function() {
+        	for ( var i = 2; i < bloglists.length; i++) {
+				$("#listSelection").append('<option value="' + i + '">' + bloglists[i].name + '</option>');
+			}
+        },
+        close: function() {
+        	
+        }
+	});
+	
+	$("#dialogSelectListAddBlog").keypress(function(e) {
+        if (e.keyCode == $.ui.keyCode.ENTER) {
+        	$("#dialogSelectListAddBlog").parent().find("button:eq(0)").trigger("click");
+          return false;
+        }
+      });
+	
 	$("#dialogConfirmBlogDelete").dialog({
 		autoOpen: false,
 		modal: true,
@@ -811,7 +844,14 @@ function manageSharing() {
 			
 	}
 	else if ((params.action != undefined) && params.action == "addBlog" && isLoggedIn()) {
-		//ava dialoog, küsi bloglisti nime kuhu addida. Addi!!
+		if (bloglists != undefined) {
+			blogId = params.blogId;
+			$("#dialogSelectListAddBlog").dialog("open");
+		}
+		else {
+			setTimeout("manageSharing()", 200);
+		}
+		
 	}
 	else if ((params.ids != undefined) && !isLoggedIn()){
 		$("#accordion").html("Log in to accept the shared bloglist.");

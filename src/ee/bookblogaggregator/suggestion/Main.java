@@ -35,7 +35,6 @@ public class Main {
 		
 		for (Iterator<Blog> iterator = blogs.iterator(); iterator.hasNext();) {
 			Blog blog = (Blog) iterator.next();
-			log.info("Blogs: " + blog);
 		}
 		
 		
