@@ -167,6 +167,16 @@
 		<p class="validateTips" id="validateTipsBloglistAdd"></p>
 	</div>
 	
+	<div id="dialogSelectListAddBlog" title="Add blog">
+		<p class="validateTips" id="validateTipsSelectListAddBlog"></p>
+		<form action="">
+		  	<label for="listSelection">Select the list the blog is to be added to.</label>
+		  	<br />
+			<select id="listSelection" name="listSelection">
+			</select>
+		</form>
+	</div>
+	
 	<div id="dialogError" title="Error">
 		<p class="validateTips" id="validateTipsError"></p>
 	</div>
