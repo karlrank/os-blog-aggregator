@@ -68,7 +68,7 @@
 			</div>
 			<br /> 
 			<a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
-			<a id="editIntrests" class="add" href="javascript:void(0)">EDIT INTRESTS</a>
+			<a id="editIntrests" class="add" href="javascript:void(0)" title="Intrests are used to suggest blogs.">EDIT INTRESTS</a>
 		</div>
 	</div>
 

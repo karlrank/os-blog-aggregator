@@ -71,7 +71,13 @@ function displayResultsSuggested() {
 
 function displayResultsPopular() {
 	for ( var i = 0; i < popular.length; i++) {
-		$("#tabs-1-ol").append('<li><a title="' + popular[i].description + '" target="_blank" href="' + popular[i].htmlUrl + '">' + popular[i].title + '</a> <a id="popular.' + i + '" class="addBlogPopular">ADD</a></li>');
+		if (isLoggedIn()) {
+			$("#tabs-1-ol").append('<li><a title="' + popular[i].description + '" target="_blank" href="' + popular[i].htmlUrl + '">' + popular[i].title + '</a> <a id="popular.' + i + '" class="addBlogPopular">ADD</a></li>');
+		}
+		else {
+			$("#tabs-1-ol").append('<li><a title="' + popular[i].description + '" target="_blank" href="' + popular[i].htmlUrl + '">' + popular[i].title + '</a></li>');
+		}
+		
 	}
 	$("#tabs-1").tooltip();
 	$(".addBlogPopular").button();

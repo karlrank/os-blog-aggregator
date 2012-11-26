@@ -14,7 +14,7 @@ var noRepeatPress = false;
 var editingUserTags = false;
 
 function init() {
-	
+	$("#editIntrests").tooltip();
 	$("#dialogCopySharelink").dialog({
 		autoOpen: false,
 		modal: true,
