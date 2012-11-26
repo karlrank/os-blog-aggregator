@@ -41,6 +41,11 @@ header {
 	z-index: 2;  
 }
 
+#logo {
+	width: 714px;
+	height: 100px;
+}
+
 footer {
 	text-align: center;
 	font-size: 0.8em;
