@@ -103,6 +103,7 @@ public class BloglistsServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		response.setCharacterEncoding("UTF-8");
 		
 		
 		UserService userService = UserServiceFactory.getUserService();

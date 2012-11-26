@@ -56,7 +56,7 @@
 
 	<div id="main">
 		<div id="blogsContainer">
-			<h1>About book blog aggregator</h1>
+			<h2>About book blog aggregator</h2>
 			<p>The book blog aggregator is an open source blog 					aggregator, intended for blogs about books</p>
 			<p>It was created by a team constisting of Karl, Marko, Arvi 			and Gustav. We created it within the course of Software 				Project of the University of Tartu in 2012.  </p>
 			<p>Whole idea of the project came from Toivo Ellakvere. </p>

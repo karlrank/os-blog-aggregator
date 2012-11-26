@@ -69,7 +69,6 @@
 			<br /> 
 			<a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
 			<a id="editIntrests" class="add" href="javascript:void(0)">EDIT INTRESTS</a>
-<span id="addListInfo" class="ui-icon ui-icon-info" title="this is tooltip:)"></span>
 		</div>
 	</div>
 
