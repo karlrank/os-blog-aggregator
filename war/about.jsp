@@ -27,9 +27,9 @@
 
 			<ul class="blue">
 				<li><a href="/" title="HOME"><span>HOME</span></a></li>
-				<li><a href="/top" title="TOP" class="current"><span>TOP</span></a></li>
+				<li><a href="/top" title="TOP"><span>TOP</span></a></li>
 				<li><a href="my-blogs" title="MY BLOGS" ><span>MY BLOGS</span></a></li>
-				<li><a href="/about" title="ABOUT"><span>ABOUT</span></a></li>
+				<li><a href="/about" title="ABOUT" class="current"><span>ABOUT</span></a></li>
 			</ul>
 		</nav>
 		<ul class="login blue">
