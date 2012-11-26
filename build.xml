@@ -182,4 +182,41 @@
 	        <arg value="war" />
 	    </java>
 	</target>
+	
+	<target name="js.minify" >
+			<antcall target="js.unminify"></antcall>
+			
+			<copy todir="./war/js/original" flatten="true">
+			     <fileset dir="./war/js">
+			     	<include name="*.js" />
+			     </fileset>
+			</copy>
+			
+		    <apply executable="java" parallel="false">
+		        <fileset dir="./war/js" includes="*.js"/>
+		        <arg line="-jar"/>
+		        <arg path="yuicompressor-2.4.jar"/>
+		        <srcfile/>
+		        <arg line="-o"/>
+		        <mapper type="glob" from="*.js" to="*.js"/>
+		        <targetfile/>
+		    </apply>
+			<copy todir="./war/js/" flatten="true">
+			  	<fileset dir=".">
+			  		<include name="*.js" />
+			    </fileset>
+			</copy>
+			<delete file="blogs.js"/>
+			<delete file="main.js"/>
+			<delete file="top.js"/>
+	</target>
+	
+	<target name="js.unminify">
+		<copy todir="./war/js/" flatten="true" overwrite="true">
+			<fileset dir="./war/js/original">
+				<include name="*.js" />
+			</fileset>
+		</copy>
+	</target>
+	
 </project>
