@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+		
+	<servlet>
+		<servlet-name>bloglists</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.BloglistsServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>bloglists</servlet-name>
+		<url-pattern>/bloglists</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>tags</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.TagsServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>tags</servlet-name>
+		<url-pattern>/tags</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>blogs</servlet-name>
+		<jsp-file>/blogs.jsp</jsp-file>
+	</servlet>
+			
+	<servlet>
+		<servlet-name>listmanager</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.ListManagerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>listmanager</servlet-name>
+		<url-pattern>/listmanager</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>tagmanager</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.TagManagerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>tagmanager</servlet-name>
+		<url-pattern>/tagmanager</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>top</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.TopServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>top</servlet-name>
+		<url-pattern>/topservlet</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>main</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.UserManagerServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>main</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>main</servlet-name>
+		<url-pattern>/my-blogs</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>main</servlet-name>
+		<url-pattern>/top</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>gReaderImport</servlet-name>
+		<servlet-class>ee.bookblogaggregator.servlet.GoogleReaderImportServelet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>gReaderImport</servlet-name>
+		<url-pattern>/gReaderImport</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file-list>
+		<welcome-file>main</welcome-file>
+	</welcome-file-list>
+	
+	<servlet>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<servlet-class>com.google.api.server.spi.SystemServiceServlet</servlet-class>
+		<init-param>
+			<param-name>services</param-name>
+			<param-value/>
+		</init-param>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>SystemServiceServlet</servlet-name>
+		<url-pattern>/_ah/spi/*</url-pattern>
+	</servlet-mapping>
+	
+</web-app>
