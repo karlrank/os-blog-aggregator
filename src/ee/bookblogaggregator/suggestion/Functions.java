@@ -162,7 +162,6 @@ public class Functions {
 				stmt.setLong(2, blog.getId());
 				stmt.setFloat(3, (Float.isNaN(blog.getRating())) ? 0 : blog.getRating());
 				stmt.addBatch();
-				log.info(stmt + "");
 			}
 			stmt.executeBatch();
 			c.close();
