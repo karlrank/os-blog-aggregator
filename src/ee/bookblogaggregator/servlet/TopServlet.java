@@ -31,7 +31,7 @@ public class TopServlet extends HttpServlet {
         super();
     }
     
-    private List<Blog> getRecommendedBlogs(String email) {
+    public static List<Blog> getRecommendedBlogs(String email) {
     	Connection c = null;
 		try {
 			DriverManager.registerDriver(new AppEngineDriver());
