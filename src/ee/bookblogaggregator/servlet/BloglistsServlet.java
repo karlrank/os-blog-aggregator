@@ -131,9 +131,8 @@ public class BloglistsServlet extends HttpServlet {
 				
 					List<Bloglist> output = new ArrayList<Bloglist>();
 					output.add(getPopular(email));
-					Bloglist suggested = getPopular(email);
-					suggested.setName("Suggested");
-					suggested.setId(-2);
+					Bloglist suggested = new Bloglist(-2, "Suggested");
+					suggested.setBlogs(TopServlet.getRecommendedBlogs(email));
 					output.add(suggested);
 					while (rs.next()) {
 						Bloglist bl = new Bloglist(rs.getLong("id"), rs.getString("listName"));
