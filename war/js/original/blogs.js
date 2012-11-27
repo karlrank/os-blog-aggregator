@@ -15,6 +15,8 @@ var editingUserTags = false;
 
 function init() {
 	$("#editIntrests").tooltip();
+	$("#addlist").tooltip();
+	$("#blogUrl").tooltip();
 	$("#dialogCopySharelink").dialog({
 		autoOpen: false,
 		modal: true,

@@ -67,8 +67,8 @@
 			
 			</div>
 			<br /> 
-			<a id="addlist" class="add" href="javascript:void(0)">ADD LIST</a>
-			<a id="editIntrests" class="add" href="javascript:void(0)" title="Intrests are used to suggest blogs.">EDIT INTRESTS</a>
+			<a id="addlist" class="add" href="javascript:void(0)" title="Add a bloglist to group blogs.">ADD LIST</a>
+			<a id="editIntrests" class="add" href="javascript:void(0)" title="Interests are taken into account when recommending new blogs to you.">EDIT INTRESTS</a>
 		</div>
 	</div>
 
@@ -94,7 +94,7 @@
 				<form>
 					<fieldset>
 						<label for="blogUrl">Blog RSS feed URL</label> 
-						<input type="text" name="blogUrl" id="blogUrl" class="text ui-widget-content ui-corner-all" />
+						<input title="Right click on RSS feed button in blog, select copy link address, paste address here." type="text" name="blogUrl" id="blogUrl" class="text ui-widget-content ui-corner-all" />
 					</fieldset>
 				</form>
 			</div>
