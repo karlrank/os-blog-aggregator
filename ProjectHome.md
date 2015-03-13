@@ -1,0 +1,1 @@
+**Aggregate all discussions that are related with local popculture events (music, theatre etc.)**Provide suggestions for the users based on their interests and clicks
